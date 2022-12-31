@@ -4,7 +4,7 @@ from dash.exceptions import PreventUpdate
 from dash.dependencies import Input, Output, State
 from stf.dash_components.components import input_table, add_row_button, upload_box, file_alert
 from stf.dash_components.constants import TITLE, FILE_FORMAT_ERROR_MSG
-from stf.sankey import df_from_csv_base64
+from stf.domain import df_from_csv_base64
 
 sidebar = html.Div(
     className="left-panel", children=[html.H1(TITLE), file_alert, upload_box, input_table, add_row_button]

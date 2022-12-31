@@ -4,7 +4,7 @@ from dash import html, callback
 from dash.exceptions import PreventUpdate
 from dash.dependencies import Input, Output
 from plotly.graph_objects import Figure
-from stf.sankey import Sankey, links_from_rows
+from stf.domain import Sankey, links_from_rows
 from stf.dash_components.components import (
     input_table,
     color_dropdown,

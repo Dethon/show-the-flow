@@ -3,9 +3,9 @@ from typing import Iterable
 import pandas as pd
 import plotly.graph_objs as go
 import plotly.express as px
-from stf.sankey.sankey_components import SankeyComponents, SankeyNodeComponents, SankeyLinkComponents
-from stf.dto import SankeyDTO
-from stf.sankey.utils import links_from_rows
+from stf.domain.sankey.sankey_components import SankeyComponents, SankeyNodeComponents, SankeyLinkComponents
+from stf.domain.dto import SankeyDTO
+from stf.domain.sankey.utils import links_from_rows
 
 
 class Sankey:

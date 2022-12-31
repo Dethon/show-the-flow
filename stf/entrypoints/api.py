@@ -1,8 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
-from stf.sankey import Sankey
-from stf.dto import SankeyDTO
+from stf.domain import Sankey, SankeyDTO
 
 app = FastAPI()
 

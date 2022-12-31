@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import Iterable
 import pandas as pd
 import numpy as np
-from stf.sankey.utils import concat_columns, get_rgba_colors
+from stf.domain.sankey.utils import concat_columns, get_rgba_colors
 
 
 @dataclass
