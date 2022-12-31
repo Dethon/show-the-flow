@@ -5,8 +5,8 @@ Fast visualization tool to generate a Sankey graph from a CSV file with path inf
 ## Description
 
 The app can be used both though an UI and an API:
-* **API**: Documentation can be fount in "`/docs`" after launching the application webserver.
-* **UI**: Accessible in the "`/`" path.
+* **API**: Documentation can be fount in `/docs` after launching the application webserver.
+* **UI**: Accessible in the `/` path.
 
 There are two options to deploy the application:
 
