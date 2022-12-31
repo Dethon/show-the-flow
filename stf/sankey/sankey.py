@@ -1,0 +1,58 @@
+from __future__ import annotations
+from typing import Iterable
+import pandas as pd
+import plotly.graph_objs as go
+import plotly.express as px
+from stf.sankey.sankey_components import SankeyComponents, SankeyNodeComponents, SankeyLinkComponents
+from stf.dto import SankeyDTO
+from stf.sankey.utils import links_from_rows
+
+
+class Sankey:
+    def __init__(
+        self,
+        lnk_df: pd.DataFrame,
+        source_col: str = "source",
+        target_col: str = "target",
+        size_col: str = "amount",
+        colorscale: str = "IceFire",
+        unit: str | None = None,
+        full_label: bool = True,
+    ) -> None:
+        colors = self._get_colors(colorscale)
+        self.lnk_df = lnk_df
+        self.data = SankeyComponents.create_from_df(lnk_df, colors, source_col, target_col, size_col, unit, full_label)
+        self.figure = self._create_figure(self.data)
+
+    def update_layout(self, **kwargs) -> None:
+        self.figure.update_layout(**kwargs)
+
+    def get_figure(self) -> go.Figure:
+        return self.figure
+
+    def show(self) -> None:
+        self.figure.show()
+
+    def get_html(self) -> str:
+        return self.figure.to_html()
+
+    def _create_nodes(self, node: SankeyNodeComponents) -> dict:
+        return dict(pad=15, thickness=10, line=dict(color="black", width=0.5), label=node.labels, color=node.colors)
+
+    def _create_links(self, link: SankeyLinkComponents) -> dict:
+        return dict(source=link.sources, target=link.targets, value=link.sizes, color=link.colors)
+
+    def _create_figure(self, data: SankeyComponents) -> go.Figure:
+        nodes = self._create_nodes(data.nodes)
+        links = self._create_links(data.links)
+        return go.Figure(data=[go.Sankey(node=nodes, link=links)])
+
+    def _get_colors(self, colorscale: str) -> Iterable:
+        return px.colors.colorscale_to_colors(px.colors.get_colorscale(colorscale))
+
+    @classmethod
+    def from_dto(cls, dto: SankeyDTO) -> Sankey:
+        links_df = links_from_rows(dto.dict()["links"])
+        snk = cls(links_df, colorscale=dto.colorscale, unit=dto.unit, full_label=dto.full_label)
+        snk.update_layout(width=dto.width, height=dto.height)
+        return snk

@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  test:
+    build:
+      context: .
+      target: test
+      dockerfile: Dockerfile
+  deploy:
+    build:
+      context: .
+      target: deploy
+      dockerfile: Dockerfile
+    command: uvicorn stf:app --host 0.0.0.0 --port 80
+    ports:
+      - ${PORT_DEPLOY}:80

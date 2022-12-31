@@ -1,0 +1,15 @@
+POST http://localhost:8000/api/links HTTP/1.1
+content-type: application/json
+
+{
+    "links":[
+        {"source":"a","amount":34,"target":"aa"},
+        {"source":"a","amount":34,"target":"bb"},
+        {"source":"bb","amount":34,"target":"c"}
+    ],
+    "colorscale": "IceFire",
+    "unit": "€",
+    "full_label":true,
+    "width": 1000,
+    "height": 1000
+}

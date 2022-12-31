@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "stf"
+version = "0.1.0"
+description = ""
+authors = ["Francisco Crespo <jf_crespo@outlook.es>"]
+
+[tool.poetry.scripts]
+start = "stf:start"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+uvicorn = {extras = ["standard"], version = "^0.20.0"}
+requests = "^2.28.1"
+fastapi = "^0.88.0"
+pandas = "^1.5.2"
+openpyxl = "^3.0.10"
+plotly = "^5.11.0"
+nbformat = "^5.7.1"
+dash = "^2.7.1"
+pydantic = "^1.10.4"
+
+[tool.poetry.group.dev.dependencies]
+dash = "^2.7.1"
+visidata = "^2.10.2"
+black = "^22.12.0"
+ipykernel = "^6.19.4"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.2.0"
+mypy = "^0.991"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
