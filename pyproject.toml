@@ -5,7 +5,9 @@ description = ""
 authors = ["Francisco Crespo <jf_crespo@outlook.es>"]
 
 [tool.poetry.scripts]
-start = "stf:start"
+start = "stf.entrypoints.app:start"
+api_start = "stf.entrypoints.api:start"
+dash_start = "stf.entrypoints.dash_app:start"
 
 [tool.poetry.dependencies]
 python = "^3.10"

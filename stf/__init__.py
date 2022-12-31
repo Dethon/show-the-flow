@@ -1,2 +1,2 @@
+import stf.entrypoints
 from stf.sankey import Sankey
-from stf.entrypoints import app, start

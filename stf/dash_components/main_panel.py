@@ -1,11 +1,10 @@
 import logging
 import pandas as pd
-from dash import html
+from dash import html, callback
 from dash.exceptions import PreventUpdate
 from dash.dependencies import Input, Output
 from plotly.graph_objects import Figure
 from stf.sankey import Sankey, links_from_rows
-from stf.dash_components.application import app
 from stf.dash_components.components import (
     input_table,
     color_dropdown,
@@ -42,7 +41,7 @@ main_panel = html.Div(
 )
 
 
-@app.callback(
+@callback(
     Output(sankey_graph, "figure"),
     Input(input_table, "data"),
     Input(width_input, "value"),

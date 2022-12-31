@@ -1,8 +1,7 @@
 import pandas as pd
-from dash import html, no_update, ctx
+from dash import html, no_update, ctx, callback
 from dash.exceptions import PreventUpdate
 from dash.dependencies import Input, Output, State
-from stf.dash_components.application import app
 from stf.dash_components.components import input_table, add_row_button, upload_box, file_alert
 from stf.dash_components.constants import TITLE, FILE_FORMAT_ERROR_MSG
 from stf.sankey import df_from_csv_base64
@@ -12,7 +11,7 @@ sidebar = html.Div(
 )
 
 
-@app.callback(
+@callback(
     [Output(input_table, "data"), Output(file_alert, "displayed"), Output(file_alert, "message")],
     Input(upload_box, "contents"),
     Input(upload_box, "filename"),
