@@ -1,4 +1,4 @@
-FROM python:3.10.4-buster as base
+FROM python:3.10.9-buster as base
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
