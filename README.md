@@ -9,15 +9,18 @@ The app can be used both though an UI and an API:
 * **UI**: Accessible in the "`/`" path.
 
 There are two options to deploy the application:
+
 ### Docker
-Other than the development one there is a deployment Docker image definition in the `Dockerfile`. To start the container just type:
+
+Other than the development one there is a deployment Docker image definition in the `Dockerfile`. This is the recommended approach, to start the container just type:
 ```
 docker-compose up -d --build deploy
 ``` 
 By default the container will be listening to the port `8190`. You can personalize it by editing the `.env` file.
 
 ### Run with Poetry
-You can also intall the application and all its dependencies in a virtual environment with `Poetry`. This approach requires `python 3.10`.
+
+If you just want to quickly spin up the application for your own use you can also install it and all its dependencies in a virtual environment with `Poetry`. This approach requires `python 3.10`.
 
 First install `Poetry` if you don't have it already:
 ```
