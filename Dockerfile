@@ -21,6 +21,30 @@ COPY poetry.lock pyproject.toml ./
 
 ###############################################################################
 
+FROM base as dev
+ENV FASTAPI_ENV=development
+
+RUN apt update && \
+    apt install -y \
+    sudo \
+    htop \
+    git \
+    nano \
+    vim \
+    curl \
+    default-jre \
+    iputils-ping
+
+ARG GID
+ARG UID
+RUN groupadd --gid $GID gro
+RUN useradd -ms /bin/bash --uid $UID --gid $GID -m usr
+RUN chown $UID:$GID $PYSETUP_PATH
+USER $UID
+RUN poetry install
+
+###############################################################################
+
 FROM base as test
 RUN poetry install --without dev
 
@@ -44,29 +68,5 @@ RUN poetry install --without dev,test
 COPY . /app/
 WORKDIR /app
 EXPOSE 80
-
-###############################################################################
-
-FROM base as dev
-ENV FASTAPI_ENV=development
-
-RUN apt update && \
-    apt install -y \
-    sudo \
-    htop \
-    git \
-    nano \
-    vim \
-    curl \
-    default-jre \
-    iputils-ping
-
-ARG GID
-ARG UID
-RUN groupadd --gid $GID gro
-RUN useradd -ms /bin/bash --uid $UID --gid $GID -m usr
-RUN chown $UID:$GID $PYSETUP_PATH
-USER $UID
-RUN poetry install
 
 ###############################################################################

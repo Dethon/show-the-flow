@@ -2,13 +2,6 @@ version: '3.8'
 services:
   dev:
     command: /bin/sh -c "while sleep 1000; do :; done"
-    build:
-      context: .
-      target: dev
-      dockerfile: Dockerfile
-      args:
-        GID: ${MY_GID}
-        UID: ${MY_UID}
     volumes:
       - .:/workspace:cached
     environment:

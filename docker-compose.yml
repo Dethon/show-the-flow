@@ -1,5 +1,13 @@
 version: '3.8'
 services:
+  dev:
+    build:
+      context: .
+      target: dev
+      dockerfile: Dockerfile
+      args:
+        GID: ${MY_GID}
+        UID: ${MY_UID}
   test:
     build:
       context: .
