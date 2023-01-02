@@ -1,8 +1,8 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import Iterable
+from collections.abc import Collection
 import pandas as pd
-import numpy as np
 from stf.domain.sankey.utils import concat_columns, get_rgba_colors
 
 
@@ -21,18 +21,24 @@ class SankeyComponents:
         size_col: str = "amount",
         unit: str | None = None,
         size_label: bool = True,
+        x_pos: Collection[float] | None = None,
+        y_pos: Collection[float] | None = None,
     ) -> SankeyComponents:
-        nodes = SankeyNodeComponents.create_from_df(lnk_df, colors, source_col, target_col, size_col, unit, size_label)
+        nodes = SankeyNodeComponents.create_from_df(
+            lnk_df, colors, source_col, target_col, size_col, unit, size_label, x_pos, y_pos
+        )
         links = SankeyLinkComponents.create_from_df(lnk_df, nodes, source_col, target_col, size_col)
         return cls(links=links, nodes=nodes)
 
 
 @dataclass
 class SankeyNodeComponents:
-    names: np.ndarray
-    sizes: np.ndarray
-    labels: np.ndarray
-    colors: np.ndarray
+    names: Collection[str]
+    sizes: Collection[float]
+    labels: Collection[str]
+    colors: Collection[str]
+    x_pos: Collection[float] | None = None
+    y_pos: Collection[float] | None = None
 
     @classmethod
     def create_from_df(
@@ -44,6 +50,8 @@ class SankeyNodeComponents:
         size_col: str = "amount",
         unit: str | None = None,
         size_in_label: bool = True,
+        x_pos: Collection[float] | None = None,
+        y_pos: Collection[float] | None = None,
     ) -> SankeyNodeComponents:
         unit = "" if unit is None else unit
         nname_col = "name"
@@ -65,15 +73,17 @@ class SankeyNodeComponents:
             sizes=nodes_df[size_col].to_numpy(),
             labels=concat_columns(nodes_df, *cat_cols, sep=": ") + unit,
             colors=get_rgba_colors(len(nodes_df), colors, opacity=0.5),
+            x_pos=x_pos,
+            y_pos=y_pos,
         )
 
 
 @dataclass
 class SankeyLinkComponents:
-    sources: np.ndarray
-    targets: np.ndarray
-    sizes: np.ndarray
-    colors: np.ndarray
+    sources: Collection[int]
+    targets: Collection[int]
+    sizes: Collection[float]
+    colors: Collection[str]
 
     @classmethod
     def create_from_df(
@@ -85,8 +95,9 @@ class SankeyLinkComponents:
         size_col: str = "amount",
     ) -> SankeyLinkComponents:
         translator = {name: idx for idx, name in enumerate(node_components.names)}
-        sources = np.array([translator[k] for k in lnk_df[source_col]])
-        targets = np.array([translator[k] for k in lnk_df[target_col]])
+        sources = [translator[k] for k in lnk_df[source_col]]
+        targets = [translator[k] for k in lnk_df[target_col]]
         sizes = lnk_df[size_col].to_numpy()
-        colors = np.array([node_components.colors[i] for i in sources])
+        colors = list(node_components.colors)
+        colors = [colors[i] for i in sources]
         return cls(sources=sources, targets=targets, sizes=sizes, colors=colors)

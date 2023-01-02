@@ -18,10 +18,14 @@ class Sankey:
         colorscale: str = "IceFire",
         unit: str | None = None,
         full_label: bool = True,
+        x_pos: list[float] | None = None,
+        y_pos: list[float] | None = None,
     ) -> None:
         colors = self._get_colors(colorscale)
         self.lnk_df = lnk_df
-        self.data = SankeyComponents.create_from_df(lnk_df, colors, source_col, target_col, size_col, unit, full_label)
+        self.data = SankeyComponents.create_from_df(
+            lnk_df, colors, source_col, target_col, size_col, unit, full_label, x_pos, y_pos
+        )
         self.figure = self._create_figure(self.data)
 
     def update_layout(self, **kwargs) -> None:
@@ -37,7 +41,15 @@ class Sankey:
         return self.figure.to_html()
 
     def _create_nodes(self, node: SankeyNodeComponents) -> dict:
-        return dict(pad=15, thickness=10, line=dict(color="black", width=0.5), label=node.labels, color=node.colors)
+        return dict(
+            pad=15,
+            thickness=10,
+            line=dict(color="black", width=0.5),
+            label=node.labels,
+            color=node.colors,
+            x=node.x_pos,
+            y=node.y_pos,
+        )
 
     def _create_links(self, link: SankeyLinkComponents) -> dict:
         return dict(source=link.sources, target=link.targets, value=link.sizes, color=link.colors)
@@ -45,7 +57,7 @@ class Sankey:
     def _create_figure(self, data: SankeyComponents) -> go.Figure:
         nodes = self._create_nodes(data.nodes)
         links = self._create_links(data.links)
-        return go.Figure(data=[go.Sankey(node=nodes, link=links)])
+        return go.Figure(data=[go.Sankey(node=nodes, link=links, arrangement="snap")])
 
     def _get_colors(self, colorscale: str) -> Iterable:
         return px.colors.colorscale_to_colors(px.colors.get_colorscale(colorscale))
