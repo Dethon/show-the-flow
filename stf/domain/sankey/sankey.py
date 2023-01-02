@@ -29,7 +29,14 @@ class Sankey:
         self.figure = self._create_figure(self.data)
 
     def update_layout(self, **kwargs) -> None:
+        if len(kwargs) == 0:
+            return
         self.figure.update_layout(**kwargs)
+
+    def update_traces(self, **kwargs) -> None:
+        if len(kwargs) == 0:
+            return
+        self.figure.update_traces(**kwargs)
 
     def get_figure(self) -> go.Figure:
         return self.figure

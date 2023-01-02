@@ -12,6 +12,8 @@ from stf.dash_components.components import (
     width_input,
     height_input,
     font_size_input,
+    node_pad_input,
+    node_thickness_input,
     show_amout_check,
     sankey_graph,
     add_label,
@@ -34,6 +36,8 @@ main_panel = html.Div(
                         add_label(height_input, "Height", "input-label"),
                         add_label(unit_input, "Unit", "input-label"),
                         add_label(font_size_input, "Font size", "input-label"),
+                        add_label(node_pad_input, "Node padding", "input-label"),
+                        add_label(node_thickness_input, "Node thickness", "input-label"),
                         show_amout_check,
                     ],
                 )
@@ -50,6 +54,8 @@ main_panel = html.Div(
     Input(width_input, "value"),
     Input(height_input, "value"),
     Input(font_size_input, "value"),
+    Input(node_pad_input, "value"),
+    Input(node_thickness_input, "value"),
     Input(show_amout_check, "value"),
     Input(unit_input, "value"),
     Input(color_dropdown, "value"),
@@ -60,6 +66,8 @@ def update_graph(
     width: int,
     height: int,
     font_size: int,
+    node_pad: int,
+    node_thickness: int,
     full_label: bool,
     unit: str,
     colorscale: str,
@@ -72,19 +80,9 @@ def update_graph(
             x_pos, y_pos = get_position(current_fig)
 
         links_df = links_from_rows(rows)
-        font = dict(size=font_size)
-        sankey = generate_graph(
-            links_df,
-            full_label,
-            unit,
-            colorscale,
-            x_pos,
-            y_pos,
-            **default_layout,
-            width=width,
-            height=height,
-            font=font
-        )
+        sankey = Sankey(links_df, colorscale=colorscale, unit=unit, full_label=full_label, x_pos=x_pos, y_pos=y_pos)
+        sankey.update_layout(**default_layout, width=width, height=height, font_size=font_size)
+        sankey.update_traces(node_pad=node_pad, node_thickness=node_thickness)
         return sankey.get_figure()
     except Exception as e:
         logging.exception(e)
@@ -96,17 +94,3 @@ def get_position(figure: dict[str, list[dict]]) -> tuple[list | None, list | Non
     x_state, y_state = (node.get("x"), node.get("y")) if node else (None, None)
 
     return x_state, y_state
-
-
-def generate_graph(
-    links_df: pd.DataFrame,
-    full_label: bool,
-    unit: str,
-    colorscale: str,
-    x_pos: list[float] | None,
-    y_pos: list[float] | None,
-    **layout
-) -> Sankey:
-    sankey = Sankey(links_df, colorscale=colorscale, unit=unit, full_label=full_label, x_pos=x_pos, y_pos=y_pos)
-    sankey.update_layout(**layout)
-    return sankey

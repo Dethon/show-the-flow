@@ -7,6 +7,10 @@ sankey_graph = dcc.Graph(className="chart", id="snk-graph", figure=default_figur
 width_input = dcc.Input(className="input", id="snk-width", type="number", placeholder="1920px")
 height_input = dcc.Input(className="input", id="snk-height", type="number", placeholder="1080px")
 font_size_input = dcc.Input(className="input", id="snk-font-size", type="number", placeholder="12", value=20)
+node_pad_input = dcc.Input(className="input", id="snk-node-pad", type="number", placeholder="20px", value=18)
+node_thickness_input = dcc.Input(
+    className="input", id="snk-node-thickness", type="number", placeholder="20px", value=10
+)
 unit_input = dcc.Input(className="input", id="snk-unit", type="text", placeholder="€")
 show_amout_check = dcc.Checklist(className="check-list", id="snk-full-label", inline=True, options=["Show amounts"])
 color_dropdown = dcc.Dropdown(
