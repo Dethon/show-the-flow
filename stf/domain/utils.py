@@ -1,11 +1,9 @@
 import io
 import base64
-from itertools import cycle, islice
 from typing import Iterable
 import pandas as pd
 import numpy as np
 from pandas.api.types import is_numeric_dtype
-from plotly.colors import hex_to_rgb
 
 
 def concat_columns(dataframe: pd.DataFrame, *cols: str, sep: str = "", num_decimals: int = 2) -> np.ndarray:
@@ -20,10 +18,6 @@ def format_num_column(series: pd.Series, num_decimals: int = 2) -> pd.Series:
     if is_numeric_dtype(series):
         return series.astype(float).round(num_decimals).astype(str)
     return series.astype(str)
-
-
-def get_rgba_colors(amount: int, scale: Iterable, opacity=1) -> list[str]:
-    return [f"rgba{hex_to_rgb(c) + (opacity,)}" for c in islice(cycle(scale), None, amount)]
 
 
 def links_from_rows(rows: list[dict[str, str | float]]) -> pd.DataFrame:

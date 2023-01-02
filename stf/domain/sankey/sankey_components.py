@@ -3,7 +3,8 @@ from dataclasses import dataclass
 from typing import Iterable
 from collections.abc import Collection
 import pandas as pd
-from stf.domain.sankey.utils import concat_columns, get_rgba_colors
+from stf.domain.utils import concat_columns
+from stf.domain.colors import ColorScale
 
 
 @dataclass
@@ -15,7 +16,7 @@ class SankeyComponents:
     def create_from_df(
         cls,
         lnk_df: pd.DataFrame,
-        colors: Iterable,
+        colorscale: str,
         source_col: str = "source",
         target_col: str = "target",
         size_col: str = "amount",
@@ -25,7 +26,7 @@ class SankeyComponents:
         y_pos: Collection[float] | None = None,
     ) -> SankeyComponents:
         nodes = SankeyNodeComponents.create_from_df(
-            lnk_df, colors, source_col, target_col, size_col, unit, size_label, x_pos, y_pos
+            lnk_df, colorscale, source_col, target_col, size_col, unit, size_label, x_pos, y_pos
         )
         links = SankeyLinkComponents.create_from_df(lnk_df, nodes, source_col, target_col, size_col)
         return cls(links=links, nodes=nodes)
@@ -44,7 +45,7 @@ class SankeyNodeComponents:
     def create_from_df(
         cls,
         lnk_df: pd.DataFrame,
-        colors: Iterable,
+        colorscale: str,
         source_col: str = "source",
         target_col: str = "target",
         size_col: str = "amount",
@@ -72,7 +73,7 @@ class SankeyNodeComponents:
             names=nodes_df[nname_col].to_numpy(),
             sizes=nodes_df[size_col].to_numpy(),
             labels=concat_columns(nodes_df, *cat_cols, sep=": ") + unit,
-            colors=get_rgba_colors(len(nodes_df), colors, opacity=0.5),
+            colors=ColorScale.get_rgba(colorscale, len(nodes_df), opacity=0.5),
             x_pos=x_pos,
             y_pos=y_pos,
         )

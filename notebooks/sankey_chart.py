@@ -1,6 +1,6 @@
 #%%
 import pandas as pd
-from stf.sankey import Sankey
+from stf.domain.sankey import Sankey
 
 #%%
 links_df = pd.read_csv("../datasets/sample.csv")

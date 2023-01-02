@@ -5,7 +5,7 @@ import plotly.graph_objs as go
 import plotly.express as px
 from stf.domain.sankey.sankey_components import SankeyComponents, SankeyNodeComponents, SankeyLinkComponents
 from stf.domain.dto import SankeyDTO
-from stf.domain.sankey.utils import links_from_rows
+from stf.domain.utils import links_from_rows
 
 
 class Sankey:
@@ -21,10 +21,9 @@ class Sankey:
         x_pos: list[float] | None = None,
         y_pos: list[float] | None = None,
     ) -> None:
-        colors = self._get_colors(colorscale)
         self.lnk_df = lnk_df
         self.data = SankeyComponents.create_from_df(
-            lnk_df, colors, source_col, target_col, size_col, unit, full_label, x_pos, y_pos
+            lnk_df, colorscale, source_col, target_col, size_col, unit, full_label, x_pos, y_pos
         )
         self.figure = self._create_figure(self.data)
 
@@ -65,9 +64,6 @@ class Sankey:
         nodes = self._create_nodes(data.nodes)
         links = self._create_links(data.links)
         return go.Figure(data=[go.Sankey(node=nodes, link=links, arrangement="snap")])
-
-    def _get_colors(self, colorscale: str) -> Iterable:
-        return px.colors.colorscale_to_colors(px.colors.get_colorscale(colorscale))
 
     @classmethod
     def from_dto(cls, dto: SankeyDTO) -> Sankey:
