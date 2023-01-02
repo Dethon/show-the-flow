@@ -71,6 +71,10 @@
     border-style: solid;
 }
 
+.input-label {
+    margin-bottom: 0px;
+}
+
 .input {
     height: 24px;
     padding: 5px 10px;

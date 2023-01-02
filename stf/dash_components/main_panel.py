@@ -14,6 +14,7 @@ from stf.dash_components.components import (
     font_size_input,
     show_amout_check,
     sankey_graph,
+    add_label,
 )
 
 default_layout = dict(margin=dict(autoexpand=True, b=25, l=25, t=25, r=25))
@@ -28,11 +29,11 @@ main_panel = html.Div(
                 html.Div(
                     className="row",
                     children=[
-                        color_dropdown,
-                        width_input,
-                        height_input,
-                        unit_input,
-                        font_size_input,
+                        add_label(color_dropdown, "Color palette", "input-label"),
+                        add_label(width_input, "Width", "input-label"),
+                        add_label(height_input, "Height", "input-label"),
+                        add_label(unit_input, "Unit", "input-label"),
+                        add_label(font_size_input, "Font size", "input-label"),
                         show_amout_check,
                     ],
                 )
