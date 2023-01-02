@@ -1,3 +1,4 @@
+import logging
 import pandas as pd
 from dash import html, no_update, ctx, callback
 from dash.exceptions import PreventUpdate
@@ -27,9 +28,9 @@ def update_table(
     current_columns: list[dict[str, str]],
 ) -> tuple[list[dict[str, str | float]], bool, str]:
     trigger_id = ctx.triggered_id
-    if add_row_clicks > 0 and trigger_id == add_row_button.id:  # pylint: disable=no-member
+    if add_row_clicks > 0 and trigger_id == add_row_button.id:
         return add_row(current_data, current_columns), no_update, no_update
-    elif file_contents is not None and trigger_id == upload_box.id:  # pylint: disable=no-member
+    elif file_contents is not None and trigger_id == upload_box.id:
         return load_file(file_contents, file_name)
     raise PreventUpdate
 
@@ -40,9 +41,11 @@ def add_row(rows: list[dict[str, str | float]], columns: list[dict[str, str]]) -
 
 
 def load_file(contents: str, filename: str) -> tuple[list[dict[str, str | float]], bool, str]:
-    if "csv" not in filename:
+    try:
+        return validate_df(df_from_csv_base64(contents))
+    except Exception as e:
+        logging.exception(e)
         return no_update, True, FILE_FORMAT_ERROR_MSG
-    return validate_df(df_from_csv_base64(contents))
 
 
 def validate_df(df: pd.DataFrame) -> tuple[pd.DataFrame, bool, str]:
