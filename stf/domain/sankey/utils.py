@@ -22,8 +22,8 @@ def format_num_column(series: pd.Series, num_decimals: int = 2) -> pd.Series:
     return series.astype(str)
 
 
-def get_rgba_colors(amount: int, scale: Iterable, opacity=1) -> np.ndarray:
-    return np.array([f"rgba{hex_to_rgb(c) + (opacity,)}" for c in islice(cycle(scale), None, amount)])
+def get_rgba_colors(amount: int, scale: Iterable, opacity=1) -> list[str]:
+    return [f"rgba{hex_to_rgb(c) + (opacity,)}" for c in islice(cycle(scale), None, amount)]
 
 
 def links_from_rows(rows: list[dict[str, str | float]]) -> pd.DataFrame:
