@@ -35,8 +35,8 @@ RUN apt update && \
     default-jre \
     iputils-ping
 
-ARG GID
-ARG UID
+ARG GID=1000
+ARG UID=1000
 RUN groupadd --gid $GID gro
 RUN useradd -ms /bin/bash --uid $UID --gid $GID -m usr
 RUN chown $UID:$GID $PYSETUP_PATH
@@ -67,6 +67,8 @@ RUN poetry install --without dev,test
 
 COPY . /app/
 WORKDIR /app
-EXPOSE 80
+EXPOSE 3500
+CMD uvicorn stf.entrypoints.app:app --host 0.0.0.0 --port 3500
+
 
 ###############################################################################
