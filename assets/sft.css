@@ -76,6 +76,7 @@
 }
 
 .input {
+    width: 80px;
     height: 24px;
     padding: 5px 10px;
     margin-right: 0.3vw;
@@ -85,7 +86,7 @@
 }
 
 .dropdown {
-    width: 191px;
+    width: 100px;
     margin-right: 0.3vw;
 }
 
