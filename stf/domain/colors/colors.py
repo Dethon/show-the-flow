@@ -1,4 +1,3 @@
-from itertools import cycle, islice
 from plotly.colors import unlabel_rgb
 
 
