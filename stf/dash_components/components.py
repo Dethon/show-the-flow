@@ -3,9 +3,10 @@ from dash import dash_table, html, dcc
 
 default_figure = {"data": [{"type": "sankey"}]}
 sankey_graph = dcc.Graph(className="chart", id="snk-graph", figure=default_figure)
-width_input = dcc.Input(className="input", id="snk-width", type="number", placeholder="width")
-height_input = dcc.Input(className="input", id="snk-height", type="number", placeholder="height")
-unit_input = dcc.Input(className="input", id="snk-unit", type="text", placeholder="unit")
+width_input = dcc.Input(className="input", id="snk-width", type="number", placeholder="Width")
+height_input = dcc.Input(className="input", id="snk-height", type="number", placeholder="Height")
+font_size_input = dcc.Input(className="input", id="snk-font-size", type="number", placeholder="Font size", value=20)
+unit_input = dcc.Input(className="input", id="snk-unit", type="text", placeholder="Unit")
 show_amout_check = dcc.Checklist(className="check-list", id="snk-full-label", inline=True, options=["Show amounts"])
 color_dropdown = dcc.Dropdown(
     className="dropdown",

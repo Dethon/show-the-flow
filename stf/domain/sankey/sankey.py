@@ -42,7 +42,7 @@ class Sankey:
 
     def _create_nodes(self, node: SankeyNodeComponents) -> dict:
         return dict(
-            pad=15,
+            pad=18,
             thickness=10,
             line=dict(color="black", width=0.5),
             label=node.labels,

@@ -11,11 +11,12 @@ from stf.dash_components.components import (
     unit_input,
     width_input,
     height_input,
+    font_size_input,
     show_amout_check,
     sankey_graph,
 )
 
-default_layout = dict(font=dict(size=20), margin=dict(autoexpand=True, b=25, l=25, t=25, r=25))
+default_layout = dict(margin=dict(autoexpand=True, b=25, l=25, t=25, r=25))
 
 
 main_panel = html.Div(
@@ -31,6 +32,7 @@ main_panel = html.Div(
                         width_input,
                         height_input,
                         unit_input,
+                        font_size_input,
                         show_amout_check,
                     ],
                 )
@@ -46,6 +48,7 @@ main_panel = html.Div(
     Input(input_table, "data"),
     Input(width_input, "value"),
     Input(height_input, "value"),
+    Input(font_size_input, "value"),
     Input(show_amout_check, "value"),
     Input(unit_input, "value"),
     Input(color_dropdown, "value"),
@@ -55,6 +58,7 @@ def update_graph(
     rows: list[dict[str, str | float]],
     width: int,
     height: int,
+    font_size: int,
     full_label: bool,
     unit: str,
     colorscale: str,
@@ -67,8 +71,18 @@ def update_graph(
             x_pos, y_pos = get_position(current_fig)
 
         links_df = links_from_rows(rows)
+        font = dict(size=font_size)
         sankey = generate_graph(
-            links_df, full_label, unit, colorscale, x_pos, y_pos, **default_layout, width=width, height=height
+            links_df,
+            full_label,
+            unit,
+            colorscale,
+            x_pos,
+            y_pos,
+            **default_layout,
+            width=width,
+            height=height,
+            font=font
         )
         return sankey.get_figure()
     except Exception as e:
