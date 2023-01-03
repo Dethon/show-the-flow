@@ -14,3 +14,6 @@ class SankeyDTO(BaseModel):
     full_label: bool = False
     width: int = 500
     height: int = 500
+    font_size: int = 12
+    node_pad: int = 20
+    node_thickness: int = 20

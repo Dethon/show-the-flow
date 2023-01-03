@@ -1,5 +1,4 @@
 from __future__ import annotations
-from typing import Iterable
 import pandas as pd
 import plotly.graph_objs as go
 import plotly.express as px
@@ -69,5 +68,6 @@ class Sankey:
     def from_dto(cls, dto: SankeyDTO) -> Sankey:
         links_df = links_from_rows(dto.dict()["links"])
         snk = cls(links_df, colorscale=dto.colorscale, unit=dto.unit, full_label=dto.full_label)
-        snk.update_layout(width=dto.width, height=dto.height)
+        snk.update_layout(width=dto.width, height=dto.height, font_size=dto.font_size)
+        snk.update_traces(node_pad=dto.node_pad, node_thickness=dto.node_thickness)
         return snk
