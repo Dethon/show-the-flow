@@ -7,7 +7,6 @@ on:
 jobs:
   publish-app-image:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    needs: test-app
     runs-on: ubuntu-latest
     env:
       REGISTRY_URL: ${{ secrets.REGISTRY_URL }}
@@ -26,4 +25,3 @@ jobs:
           docker-compose build deploy 
           docket tag stf-deploy:latest $REGISTRY_URL/stf:latest
           docker push $REGISTRY_URL/stf:latest
-          
