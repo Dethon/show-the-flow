@@ -1,0 +1,10 @@
+name: test
+on: [push]
+jobs:
+  test-app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build and push deploy image
+        run: |
+          docker-compose build test
