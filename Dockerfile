@@ -14,7 +14,7 @@ ENV PYTHONUNBUFFERED=1 \
 
 ENV PATH="$POETRY_HOME/bin:$VIRTUAL_ENV/bin:$PATH"
 
-RUN apt update && apt upgrade
+RUN apt update && apt upgrade -y && apt clean
 RUN pip install "poetry==$POETRY_VERSION"
 WORKDIR $PYSETUP_PATH
 COPY poetry.lock pyproject.toml ./
