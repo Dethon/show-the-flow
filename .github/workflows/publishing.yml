@@ -1,7 +1,7 @@
-name: publish
+name: Publishing
 on:
   workflow_run:
-    workflows: [test]
+    workflows: [Testing]
     type: [completed]
     branches: [master]
 jobs:
