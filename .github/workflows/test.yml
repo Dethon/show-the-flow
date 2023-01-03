@@ -11,3 +11,4 @@ jobs:
       - name: Build test image
         run: |
           docker-compose build test
+          
