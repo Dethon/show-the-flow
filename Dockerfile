@@ -26,7 +26,7 @@ FROM base as dev
 ENV FASTAPI_ENV=development
 
 RUN apt-get update && \
-    apt-get install -y \
+    apt-get install --no-install-recommends -y \
     sudo \
     htop \
     git \
@@ -34,13 +34,15 @@ RUN apt-get update && \
     vim \
     curl \
     default-jre \
-    iputils-ping
+    iputils-ping && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get clean
 
 ARG GID=1000
 ARG UID=1000
 RUN groupadd --gid $GID gro && \
     useradd -ms /bin/bash --uid "$UID" --gid "$GID" -m usr && \
-    chown "$UID":"$GID" $PYSETUP_PATH
+    chown "$UID":"$GID" "$PYSETUP_PATH"
 USER $UID
 RUN poetry install
 
@@ -61,8 +63,8 @@ FROM base as deploy
 ENV FASTAPI_ENV=production
 
 ARG username=deployuser
-RUN useradd -ms /bin/bash "$username" && \
-    chown "$username" $PYSETUP_PATH
+RUN useradd -ms /bin/bash $username && \
+    chown "$username" "$PYSETUP_PATH"
 USER $username
 RUN poetry install --without dev,test
 
