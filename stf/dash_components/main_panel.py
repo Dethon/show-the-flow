@@ -1,5 +1,4 @@
 import logging
-import pandas as pd
 from dash import html, ctx, callback
 from dash.exceptions import PreventUpdate
 from dash.dependencies import Input, Output, State
@@ -34,10 +33,10 @@ main_panel = html.Div(
                         add_label(color_dropdown, "Color palette", "input-label"),
                         add_label(width_input, "Width", "input-label"),
                         add_label(height_input, "Height", "input-label"),
-                        add_label(unit_input, "Unit", "input-label"),
                         add_label(font_size_input, "Font size", "input-label"),
                         add_label(node_pad_input, "Node padding", "input-label"),
                         add_label(node_thickness_input, "Node thickness", "input-label"),
+                        add_label(unit_input, "Unit", "input-label"),
                         show_amout_check,
                     ],
                 )
