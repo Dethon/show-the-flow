@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       REGISTRY_URL: ghcr.io
-      REPO_NAME: ${{ github.repository }}
+      REPO_NAME: ${{ github.event.repository.name }}
       DOCKER_BUILDKIT: 1
       COMPOSE_DOCKER_CLI_BUILD: 1
     steps:
