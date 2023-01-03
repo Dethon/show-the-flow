@@ -23,5 +23,5 @@ jobs:
       - name: Build and push image
         run: |
           docker-compose build deploy 
-          docket tag stf-deploy:latest $REGISTRY_URL/stf:latest
+          docker tag stf-deploy:latest $REGISTRY_URL/stf:latest
           docker push $REGISTRY_URL/stf:latest
