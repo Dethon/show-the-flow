@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       REGISTRY_URL: ghcr.io
+      REPO_NAME: ${{ github.repository }}
       DOCKER_BUILDKIT: 1
       COMPOSE_DOCKER_CLI_BUILD: 1
     steps:
@@ -23,5 +24,5 @@ jobs:
       - name: Build and push image
         run: |
           docker-compose build deploy 
-          docker tag stf-deploy:latest $REGISTRY_URL/stf:latest
-          docker push $REGISTRY_URL/stf:latest
+          docker tag stf-deploy:latest $REGISTRY_URL/$REPO_NAME/stf:latest
+          docker push $REGISTRY_URL/$REPO_NAME/stf:latest
