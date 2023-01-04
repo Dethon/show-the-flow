@@ -1,6 +1,5 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from typing import Iterable
 from collections.abc import Collection
 import pandas as pd
 from stf.domain.utils import concat_columns

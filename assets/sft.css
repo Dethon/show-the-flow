@@ -71,18 +71,43 @@
     border-style: solid;
 }
 
-.input-label {
-    margin-bottom: 0px;
+.labeled-input {
+    margin-right: 0.5vw;
 }
 
-.input {
-    width: 80px;
-    height: 24px;
-    padding: 5px 10px;
-    margin-right: 0.3vw;
+.input-label {
+    margin: 0px;
+    width: fit-content;
+}
+
+.input-with-unit {
+    display: flex;
+    height: 34px;
+    width: fit-content;
     border-radius: 4px;
     border-width: 1px;
     border-style: solid;
+    border-color: rgb(133, 133, 133);
+}
+
+.input {
+    padding: 0px 5px;
+    margin: 0px;
+    border-width: 0px;
+    border-radius: 4px;
+    min-width: 6ch;
+    max-width: 10ch;
+    width: 100%
+}
+
+.input-unit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px;
+    width: 30px;
+    border-radius: 4px;
+    background-color: rgb(230, 230, 230);
 }
 
 .dropdown {
@@ -97,12 +122,36 @@
     border-style: solid;
 }
 
-.check-list {
+.optional-input {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    width: fit-content;
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(133, 133, 133);
 }
 
-.check-list * {
-    align-self: center;
+.optional-input .input-with-unit {
+    border-width: 0px;
+}
+
+.optional-input .check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px;
+    padding: 0px;
+    width: 35px;
+    height: 100%;
+    border-radius: 4px;
+    background-color: rgb(230, 230, 230);
+}
+
+.optional-input .input:disabled {
+    background-color: rgb(245, 245, 245);
 }
 
 .container {

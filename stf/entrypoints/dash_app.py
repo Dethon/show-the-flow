@@ -1,8 +1,8 @@
-from dash import Dash, html
-from stf.dash_components import sidebar, main_panel
+from dash import Dash
+from stf.dash_pages.sankey_graph import layout
 
 app = Dash(__name__, assets_folder="../../assets")
-app.layout = html.Div(className="container", children=[sidebar, main_panel])
+app.layout = layout
 
 
 def start() -> None:

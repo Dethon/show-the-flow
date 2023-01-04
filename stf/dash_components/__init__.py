@@ -1,2 +1,3 @@
-from stf.dash_components.sidebar import sidebar
-from stf.dash_components.main_panel import main_panel
+from stf.dash_components.labeled_input import LabeledInput
+from stf.dash_components.unitable_input import UnitableInput
+from stf.dash_components.optional_input import OptionalInput
