@@ -10,9 +10,7 @@ from stf.dash_components.components import input_table
 DEFAULT_LAYOUT = dict(margin=dict(autoexpand=True, b=25, l=25, t=25, r=25))
 COLORSCALES = ["IceFire", "Twilight", "HSV", "mrybm", "mygbm", "Edge"]
 
-color_dropdown = LabeledInput(
-    dcc.Dropdown, className="dropdown", options=COLORSCALES, value="IceFire", clearable=False, label="Color palette"
-)
+color_input = LabeledInput(dcc.Dropdown, options=COLORSCALES, value="IceFire", clearable=False, label="Color palette")
 default_figure = {"data": [{"type": "sankey"}]}
 sankey_graph = dcc.Graph(className="chart", id="snk-graph", figure=default_figure)
 width_input = LabeledInput(UnitableInput, type="number", unit="px", label="Width")
@@ -32,7 +30,7 @@ main_panel = html.Div(
                 html.Div(
                     className="row",
                     children=[
-                        color_dropdown,
+                        color_input,
                         width_input,
                         height_input,
                         npad_input,
@@ -58,7 +56,7 @@ main_panel = html.Div(
     Input(nthick_input.component.input_id, "value"),
     Input(show_amouts_input.component.check_id, "value"),
     Input(show_amouts_input.component.input_id, "value"),
-    Input(color_dropdown.component, "value"),
+    Input(color_input.component, "value"),
     State(sankey_graph, "figure"),
 )
 def update_graph(

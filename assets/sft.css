@@ -110,11 +110,6 @@
     background-color: rgb(230, 230, 230);
 }
 
-.dropdown {
-    width: 100px;
-    margin-right: 0.3vw;
-}
-
 .dropdown .Select-control {
     border-radius: 4px;
     border-width: 1px;
