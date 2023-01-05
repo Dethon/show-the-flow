@@ -16,9 +16,9 @@ class BaseComponent(html.Div):
     def generate_uuid(self) -> str:
         return str(uuid.uuid4())
 
-    def add_defaults(self, prop_dict: dict, prop: str | Iterable[str], default: Any | Iterable) -> dict:
+    def add_defaults(self, prop_dict: dict, defaults: dict) -> dict:
         result = prop_dict.copy()
-        for prop, default in zip(as_list(prop), as_list(default)):
+        for prop, default in defaults.items():
             if prop not in result:
                 result[prop] = default
         return result

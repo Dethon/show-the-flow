@@ -20,10 +20,6 @@ def format_num_column(series: pd.Series, num_decimals: int = 2) -> pd.Series:
     return series.astype(str)
 
 
-def links_from_rows(rows: list[dict[str, str | float]]) -> pd.DataFrame:
-    return pd.DataFrame.from_dict(rows)
-
-
 def df_from_csv_base64(base64_string: str) -> pd.DataFrame:
     _, content_string = base64_string.split(",")
     decoded = base64.b64decode(content_string)
