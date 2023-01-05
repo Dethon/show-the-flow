@@ -20,6 +20,7 @@ plotly = "^5.11.0"
 nbformat = "^5.7.1"
 dash = "^2.7.1"
 pydantic = "^1.10.4"
+pyarrow = "^10.0.1"
 
 [tool.poetry.group.dev.dependencies]
 visidata = "^2.10.2"
