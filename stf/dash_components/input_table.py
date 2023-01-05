@@ -66,8 +66,10 @@ class InputTable(BaseComponent):
             aio_id="page_size_input-" + self.aio_id,
             className="page-size-input",
             type="number",
+            debounce=True,
             unit="Rows per page",
             value=datatable_props["page_size"],
+            min=1,
         )
         super().__init__(
             [
@@ -138,6 +140,8 @@ class InputTable(BaseComponent):
 
         @callback(Output(self.data_table_id, "page_size"), Input(self.page_size_input.input_id, "value"))
         def update_page_size(page_size: int) -> int:
+            if not page_size:
+                raise PreventUpdate
             return page_size
 
         @callback(
