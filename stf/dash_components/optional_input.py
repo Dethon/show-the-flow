@@ -20,18 +20,17 @@ class OptionalInput(BaseComponent):
         className: str | None = None,
         check_props: dict | None = None,
         input_props: dict | None = None,
-        p_unit_props: dict | None = None,
     ) -> None:
         self.aio_id = aio_id or self.generate_uuid()
         self.unitable_input_id = self.ids.input(self.aio_id)
         self.check_id = self.ids.checklist(self.aio_id)
+
         self.input = UnitableInput(
             unit=unit,
             value=value,
             placeholder=placeholder,
             type=type,
-            p_unit_props=p_unit_props,
-            input_props=input_props,
+            **(input_props or {}),
         )
         self.input_id = self.input.input_id
 
