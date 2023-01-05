@@ -1,6 +1,4 @@
 import logging
-from typing import Any
-
 import pandas as pd
 from dash import html, dcc, ctx, callback, no_update
 from dash.exceptions import PreventUpdate
@@ -16,15 +14,14 @@ from stf.dash_pages.sankey_graph.constants import (
     DEFAULT_LAYOUT,
 )
 
-color_input = LabeledInput(dcc.Dropdown, options=COLORSCALES, value="IceFire", clearable=False, label="Color palette")
+color_in = LabeledInput(dcc.Dropdown, options=COLORSCALES, value="IceFire", clearable=False, label="Color palette")
 default_figure = {"data": [{"type": "sankey"}]}
 sankey_graph = dcc.Graph(className="chart", id="snk-graph", figure=default_figure)
-width_input = LabeledInput(UnitableInput, type="number", unit="px", label="Width")
-height_input = LabeledInput(UnitableInput, type="number", unit="px", label="Height")
-font_size_input = LabeledInput(UnitableInput, type="number", placeholder="12", label="Font size", value=20)
-npad_input = LabeledInput(UnitableInput, type="number", placeholder="20", label="Node padding", unit="px", value=18)
-nthick_input = LabeledInput(UnitableInput, type="number", placeholder="20", label="Node thickness", unit="px", value=10)
-nthick_input = LabeledInput(UnitableInput, type="number", placeholder="20", label="Node thickness", unit="px", value=10)
+width_in = LabeledInput(UnitableInput, type="number", unit="px", label="Width", min=500)
+height_in = LabeledInput(UnitableInput, type="number", unit="px", label="Height", min=500)
+font_size_in = LabeledInput(UnitableInput, type="number", placeholder="12", label="Font size", min=1, value=20)
+npad_in = LabeledInput(UnitableInput, type="number", placeholder="20", label="Node padding", unit="px", min=1, value=18)
+nthick_in = LabeledInput(UnitableInput, type="number", placeholder="20", label="Node width", unit="px", min=1, value=10)
 show_amouts_input = LabeledInput(OptionalInput, placeholder="Unit", label="Show amounts")
 input_table = InputTable(pd.read_csv("datasets/sample.csv"), **DEFAULT_TABLE_PROPS)
 input_table_container = html.Div(input_table)
@@ -48,12 +45,12 @@ main_panel = html.Div(
                 html.Div(
                     className="row",
                     children=[
-                        color_input,
-                        width_input,
-                        height_input,
-                        npad_input,
-                        nthick_input,
-                        font_size_input,
+                        color_in,
+                        width_in,
+                        height_in,
+                        npad_in,
+                        nthick_in,
+                        font_size_in,
                         show_amouts_input,
                     ],
                 )
@@ -69,14 +66,14 @@ layout = html.Div(className="container", children=[sidebar, main_panel])
 @callback(
     Output(sankey_graph, "figure"),
     Input(input_table.store_id, "data"),
-    Input(width_input.component.input_id, "value"),
-    Input(height_input.component.input_id, "value"),
-    Input(font_size_input.component.input_id, "value"),
-    Input(npad_input.component.input_id, "value"),
-    Input(nthick_input.component.input_id, "value"),
+    Input(width_in.component.input_id, "value"),
+    Input(height_in.component.input_id, "value"),
+    Input(font_size_in.component.input_id, "value"),
+    Input(npad_in.component.input_id, "value"),
+    Input(nthick_in.component.input_id, "value"),
     Input(show_amouts_input.component.check_id, "value"),
     Input(show_amouts_input.component.input_id, "value"),
-    Input(color_input.component, "value"),
+    Input(color_in.component, "value"),
     State(sankey_graph, "figure"),
 )
 def update_graph(
