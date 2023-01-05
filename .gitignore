@@ -1,4 +1,4 @@
-.vscode
+.vscode/settings.json
 .mypy_cache
 .pytest_cache
 __pycache__
