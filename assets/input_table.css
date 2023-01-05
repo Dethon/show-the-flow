@@ -34,7 +34,7 @@
 .input-table-container {
     position: relative;
     float: left;
-    margin: 2px;
+    width: 100%;
 }
 
 .input-table .dash-spreadsheet-menu {
