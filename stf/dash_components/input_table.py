@@ -72,11 +72,11 @@ class InputTable(BaseComponent):
         super().__init__(
             [
                 dcc.Store(data=df.to_dict("records"), id=self.store_id),
-                html.Div(dash_table.DataTable(id=self.data_table_id, **datatable_props), className="input-table"),
+                dash_table.DataTable(id=self.data_table_id, **datatable_props),
                 html.Button(id=self.add_row_button_id, children="+", className="add-row-button button"),
                 self.page_size_input,
             ],
-            className=self.class_name_concat(["input-table-container", className]),
+            className=self.class_name_concat(["input-table", className]),
         )
 
         @callback(

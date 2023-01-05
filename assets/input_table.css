@@ -11,6 +11,12 @@
     max-width: 30ch;
 }
 
+.dash-table-container:has(.previous-next-container)~.page-size-input {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
 .page-size-input .input {
     max-width: 5ch;
     min-width: 3ch;
@@ -31,7 +37,7 @@
     left: 0;
 }
 
-.input-table-container {
+.input-table {
     position: relative;
     float: left;
     width: 100%;
