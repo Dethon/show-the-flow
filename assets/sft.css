@@ -5,7 +5,8 @@
     box-sizing: border-box;
     overflow-y: scroll;
     height: 98vh;
-    width: 33%
+    width: fit-content;
+    max-width: 33%;
 }
 
 .chart {
