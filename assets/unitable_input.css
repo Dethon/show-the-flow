@@ -8,9 +8,17 @@
     border-color: #ccc;
 }
 
+.input-with-unit:has(.input:invalid) {
+    border: #f55 1px solid;
+}
+
 .input-with-unit .input {
-    border-width: 0px;
-    margin: 0px;
+    border: none;
+    margin: none;
+}
+
+.input-with-unit .input:invalid {
+    border: none
 }
 
 .input-unit {
