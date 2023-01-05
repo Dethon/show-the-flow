@@ -3,7 +3,7 @@
     margin-right: 0.5vw;
     float: left;
     box-sizing: border-box;
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 98vh;
     width: fit-content;
     max-width: 33%;
@@ -35,9 +35,11 @@
     height: auto;
     box-sizing: border-box;
     float: none;
-    padding-bottom: 0.5vh;
+    padding-bottom: 0.2vh;
     display: flex;
     flex-flow: row;
+    overflow-x: auto;
+    margin-bottom: 0.3vh;
 }
 
 .colorscales-bar {
@@ -136,4 +138,22 @@ a {
 
 body {
     margin: 0;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #bbb;
 }
