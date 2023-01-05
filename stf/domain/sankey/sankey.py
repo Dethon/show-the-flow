@@ -4,7 +4,6 @@ import plotly.graph_objs as go
 import plotly.express as px
 from stf.domain.sankey.sankey_components import SankeyComponents, SankeyNodeComponents, SankeyLinkComponents
 from stf.domain.dto import SankeyDTO
-from stf.domain.utils import links_from_rows
 
 
 class Sankey:
@@ -66,7 +65,7 @@ class Sankey:
 
     @classmethod
     def from_dto(cls, dto: SankeyDTO) -> Sankey:
-        links_df = links_from_rows(dto.dict()["links"])
+        links_df = pd.DataFrame.from_dict(dto.dict()["links"])
         snk = cls(links_df, colorscale=dto.colorscale, unit=dto.unit, full_label=dto.full_label)
         snk.update_layout(width=dto.width, height=dto.height, font_size=dto.font_size)
         snk.update_traces(node_pad=dto.node_pad, node_thickness=dto.node_thickness)

@@ -1,14 +1,20 @@
 import logging
-from dash import html, dcc, ctx, callback
+from typing import Any
+
+import pandas as pd
+from dash import html, dcc, ctx, callback, no_update
 from dash.exceptions import PreventUpdate
 from dash.dependencies import Input, Output, State
 from plotly.graph_objects import Figure
-from stf.domain import Sankey, links_from_rows
-from stf.dash_components import LabeledInput, UnitableInput, OptionalInput
-from stf.dash_components.components import input_table
-
-DEFAULT_LAYOUT = dict(margin=dict(autoexpand=True, b=25, l=25, t=25, r=25))
-COLORSCALES = ["IceFire", "Twilight", "HSV", "mrybm", "mygbm", "Edge"]
+from stf.domain import Sankey, df_from_csv_base64
+from stf.dash_components import LabeledInput, UnitableInput, OptionalInput, InputTable
+from stf.dash_pages.sankey_graph.constants import (
+    TITLE,
+    FILE_FORMAT_ERROR_MSG,
+    DEFAULT_TABLE_PROPS,
+    COLORSCALES,
+    DEFAULT_LAYOUT,
+)
 
 color_input = LabeledInput(dcc.Dropdown, options=COLORSCALES, value="IceFire", clearable=False, label="Color palette")
 default_figure = {"data": [{"type": "sankey"}]}
@@ -20,6 +26,18 @@ npad_input = LabeledInput(UnitableInput, type="number", placeholder="20", label=
 nthick_input = LabeledInput(UnitableInput, type="number", placeholder="20", label="Node thickness", unit="px", value=10)
 nthick_input = LabeledInput(UnitableInput, type="number", placeholder="20", label="Node thickness", unit="px", value=10)
 show_amouts_input = LabeledInput(OptionalInput, placeholder="Unit", label="Show amounts")
+input_table = InputTable(pd.read_csv("datasets/sample.csv"), **DEFAULT_TABLE_PROPS)
+input_table_container = html.Div(input_table)
+file_alert = dcc.ConfirmDialog(message="...", id="alert", displayed=False)
+upload_box = dcc.Upload(
+    className="upload-box", id="upload-data", children=html.Div(["Drag and Drop or ", html.A("Select Files")])
+)
+
+
+sidebar = html.Div(
+    className="left-panel",
+    children=[html.H1(TITLE), file_alert, upload_box, input_table_container],
+)
 
 main_panel = html.Div(
     className="main-panel",
@@ -45,10 +63,12 @@ main_panel = html.Div(
     ],
 )
 
+layout = html.Div(className="container", children=[sidebar, main_panel])
+
 
 @callback(
     Output(sankey_graph, "figure"),
-    Input(input_table, "data"),
+    Input(input_table.store_id, "data"),
     Input(width_input.component.input_id, "value"),
     Input(height_input.component.input_id, "value"),
     Input(font_size_input.component.input_id, "value"),
@@ -74,10 +94,10 @@ def update_graph(
     try:
         x_pos, y_pos = None, None
         trigger_id = ctx.triggered_id
-        if trigger_id != input_table.id:
+        if trigger_id != input_table.data_table_id:
             x_pos, y_pos = get_position(current_fig)
 
-        links_df = links_from_rows(rows)
+        links_df = pd.DataFrame.from_dict(rows)
         sankey = Sankey(links_df, colorscale=colorscale, unit=unit, full_label=full_label, x_pos=x_pos, y_pos=y_pos)
         sankey.update_layout(**DEFAULT_LAYOUT, width=width, height=height, font_size=font_size)
         sankey.update_traces(node_pad=node_pad, node_thickness=node_thickness)
@@ -85,6 +105,28 @@ def update_graph(
     except Exception as e:
         logging.exception(e)
         raise PreventUpdate from e
+
+
+@callback(
+    [Output(input_table_container, "children"), Output(file_alert, "displayed"), Output(file_alert, "message")],
+    Input(upload_box, "contents"),
+)
+def update_table(file_contents: str) -> tuple[InputTable, bool, str]:
+    if file_contents is None:
+        raise PreventUpdate
+    try:
+        df = validate_df(df_from_csv_base64(file_contents))
+        return InputTable(df, **DEFAULT_TABLE_PROPS), no_update, no_update
+    except Exception as e:
+        logging.exception(e)
+        return no_update, True, FILE_FORMAT_ERROR_MSG
+
+
+def validate_df(df: pd.DataFrame) -> pd.DataFrame:
+    expected_headers = ["source", "amount", "target"]
+    if set(expected_headers) != set(df.columns):
+        raise TypeError
+    return df
 
 
 def get_position(figure: dict[str, list[dict]]) -> tuple[list | None, list | None]:
