@@ -23,7 +23,8 @@ class LabeledInput(BaseComponent):
         self.label_id = self.ids.label(self.aio_id)
         self.component_id = self.ids.component(self.aio_id)
         self.component = component(**kwargs)
-        p_label_props = self.add_defaults(p_label_props or {}, "children", label)
+        p_label_props = self.add_defaults(p_label_props or {}, {})
+        p_label_props["children"] = label
 
         super().__init__(
             [html.P(id=self.label_id, className="input-label", **p_label_props), self.component],

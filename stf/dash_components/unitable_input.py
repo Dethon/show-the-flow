@@ -24,8 +24,12 @@ class UnitableInput(BaseComponent):
         self.input_id = self.ids.input(self.aio_id)
         self.unit_id = self.ids.unit(self.aio_id)
 
-        p_unit_props = self.add_defaults(p_unit_props or {}, "children", unit)
-        input_props = self.add_defaults(input_props or {}, ["placeholder", "value", "type"], [placeholder, value, type])
+        p_unit_props = self.add_defaults(p_unit_props or {}, {})
+        input_props = self.add_defaults(input_props or {}, {})
+        p_unit_props["children"] = unit
+        input_props["placeholder"] = placeholder
+        input_props["value"] = value
+        input_props["type"] = type
 
         input = [dcc.Input(id=self.input_id, className="input", **input_props)]
         if unit:
