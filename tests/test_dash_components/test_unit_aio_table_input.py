@@ -39,6 +39,45 @@ def test_callback_table_view_interaction_sort():
     assert [r["test"] for r in result] == [4, 3, 2, 1]
 
 
+def test_callback_table_view_interaction_filter():
+    component = InputTable()
+    page, page_size, sort_by = 0, 20, []
+    filter_query = {"value": "scontains", "left": {"value": "name"}, "right": {"value": "ee"}}
+    data = [
+        {"test": 1, "name": "dooo"},
+        {"test": 2, "name": "cooo"},
+        {"test": 3, "name": "beee"},
+        {"test": 4, "name": "aeee"},
+    ]
+
+    result = component.table_view_interaction(page, page_size, sort_by, filter_query, data)
+    assert [r["test"] for r in result] == [3, 4]
+
+    filter_query = {"value": "s>", "left": {"value": "test"}, "right": {"value": 1}}
+    result = component.table_view_interaction(page, page_size, sort_by, filter_query, data)
+    assert [r["test"] for r in result] == [2, 3, 4]
+
+    filter_query["value"] = "i<"
+    result = component.table_view_interaction(page, page_size, sort_by, filter_query, data)
+    assert [r["test"] for r in result] == []
+
+    filter_query["value"] = "s!="
+    result = component.table_view_interaction(page, page_size, sort_by, filter_query, data)
+    assert [r["test"] for r in result] == [2, 3, 4]
+
+    filter_query["value"] = "s="
+    result = component.table_view_interaction(page, page_size, sort_by, filter_query, data)
+    assert [r["test"] for r in result] == [1]
+
+    filter_query["value"] = "s>="
+    result = component.table_view_interaction(page, page_size, sort_by, filter_query, data)
+    assert [r["test"] for r in result] == [1, 2, 3, 4]
+
+    filter_query["value"] = "s<="
+    result = component.table_view_interaction(page, page_size, sort_by, filter_query, data)
+    assert [r["test"] for r in result] == [1]
+
+
 def test_callback_update_store():
     pass
 
