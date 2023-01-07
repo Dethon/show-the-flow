@@ -7,31 +7,6 @@ from stf.domain.colors import ColorScale
 
 
 @dataclass
-class SankeyComponents:
-    links: SankeyLinkComponents
-    nodes: SankeyNodeComponents
-
-    @classmethod
-    def create_from_df(
-        cls,
-        lnk_df: pd.DataFrame,
-        colorscale: str,
-        source_col: str = "source",
-        target_col: str = "target",
-        size_col: str = "amount",
-        unit: str | None = None,
-        size_label: bool = True,
-        x_pos: Collection[float] | None = None,
-        y_pos: Collection[float] | None = None,
-    ) -> SankeyComponents:
-        nodes = SankeyNodeComponents.create_from_df(
-            lnk_df, colorscale, source_col, target_col, size_col, unit, size_label, x_pos, y_pos
-        )
-        links = SankeyLinkComponents.create_from_df(lnk_df, nodes, source_col, target_col, size_col)
-        return cls(links=links, nodes=nodes)
-
-
-@dataclass
 class SankeyNodeComponents:
     names: Collection[str]
     sizes: Collection[float]
@@ -101,3 +76,28 @@ class SankeyLinkComponents:
         colors = list(node_components.colors)
         colors = [colors[i] for i in sources]
         return cls(sources=sources, targets=targets, sizes=sizes, colors=colors)
+
+
+@dataclass
+class SankeyComponents:
+    links: SankeyLinkComponents
+    nodes: SankeyNodeComponents
+
+    @classmethod
+    def create_from_df(
+        cls,
+        lnk_df: pd.DataFrame,
+        colorscale: str,
+        source_col: str = "source",
+        target_col: str = "target",
+        size_col: str = "amount",
+        unit: str | None = None,
+        size_label: bool = True,
+        x_pos: Collection[float] | None = None,
+        y_pos: Collection[float] | None = None,
+    ) -> SankeyComponents:
+        nodes = SankeyNodeComponents.create_from_df(
+            lnk_df, colorscale, source_col, target_col, size_col, unit, size_label, x_pos, y_pos
+        )
+        links = SankeyLinkComponents.create_from_df(lnk_df, nodes, source_col, target_col, size_col)
+        return cls(links=links, nodes=nodes)

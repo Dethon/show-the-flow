@@ -85,8 +85,8 @@
 }
 
 .input {
-    padding: 0px 5px;
-    margin: 0px;
+    padding: 0 5px;
+    margin: 0;
     height: 30px;
     min-width: 6ch;
     width: 9ch;
@@ -99,7 +99,7 @@
 
 .input:invalid {
     border: #f55 1px solid;
-    outline: none
+    outline: none;
 }
 
 .dropdown .Select-control {

@@ -18,15 +18,15 @@
 }
 
 .input-with-unit .input:invalid {
-    border: none
+    border: none;
 }
 
 .input-unit {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0px;
-    padding: 0px 5px;
+    margin: 0;
+    padding: 0 5px;
     width: fit-content;
     border-radius: 4px;
     background-color: #eee;

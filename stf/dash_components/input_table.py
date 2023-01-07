@@ -85,7 +85,6 @@ class InputTable(BaseComponent):
             Output(self.data_table_id, "data"),
             Input(self.data_table_id, "page_current"),
             Input(self.data_table_id, "page_size"),
-            Input(self.data_table_id, "page_count"),
             Input(self.data_table_id, "sort_by"),
             Input(self.data_table_id, "derived_filter_query_structure"),
             Input(self.store_id, "data"),
@@ -93,13 +92,12 @@ class InputTable(BaseComponent):
         def table_view_interaction(
             page: int,
             page_size: int,
-            _: int,
             sort_by: list[dict[str, str]],
-            filter: dict,
+            filter_query: dict,
             data: list[dict],
         ) -> list[dict]:
             df = pd.DataFrame.from_dict(data)
-            df = InputTable.get_view_df(df, page, page_size, sort_by, filter)
+            df = InputTable.get_view_df(df, page, page_size, sort_by, filter_query)
             return df.to_dict("records")
 
         @callback(
@@ -118,7 +116,7 @@ class InputTable(BaseComponent):
             page: int,
             page_size: int,
             sort_by: list[dict[str, str]],
-            filter: dict,
+            filter_query: dict,
             stored_data: list[dict],
         ) -> list[dict]:
             if not data:
@@ -129,7 +127,7 @@ class InputTable(BaseComponent):
                 return InputTable.add_empty_row_df(stored_df).reset_index(names=IDX_COL).to_dict("records")
 
             input_df = pd.DataFrame.from_dict(data).set_index(IDX_COL)
-            stored_paged_view = InputTable.get_view_df(stored_df, page, page_size, sort_by, filter)
+            stored_paged_view = InputTable.get_view_df(stored_df, page, page_size, sort_by, filter_query)
             if input_df.equals(stored_paged_view):
                 raise PreventUpdate
 
@@ -154,12 +152,17 @@ class InputTable(BaseComponent):
                 raise PreventUpdate
             return math.ceil(len(data) / n_rows)
 
+        self.table_view_interaction = table_view_interaction
+        self.update_store = update_store
+        self.update_page_size = update_page_size
+        self.update_page_count = update_page_count
+
     @classmethod
     def get_view_df(
-        cls, df: pd.DataFrame, page: int, page_size: int, sort_by: list[dict[str, str]], filter: dict
+        cls, df: pd.DataFrame, page: int, page_size: int, sort_by: list[dict[str, str]], filter_query: dict
     ) -> pd.DataFrame:
-        if filter:
-            df = InputTable.filter_df(df, filter)
+        if filter_query:
+            df = InputTable.filter_df(df, filter_query)
         if sort_by:
             df = cls.sort_df(df, sort_by)
         return cls.page_df(df, page, page_size)
@@ -169,14 +172,14 @@ class InputTable(BaseComponent):
         return pd.concat([df, pd.DataFrame([[np.nan] * df.shape[1]], columns=df.columns)], ignore_index=True)
 
     @classmethod
-    def filter_df(cls, df: pd.DataFrame, filter: dict) -> pd.DataFrame:
-        operator = filter["value"]
+    def filter_df(cls, df: pd.DataFrame, filter_query: dict) -> pd.DataFrame:
+        operator = filter_query["value"]
         if operator == "&&":
-            df = cls.filter_df(df, filter["left"])
-            df = cls.filter_df(df, filter["right"])
+            df = cls.filter_df(df, filter_query["left"])
+            df = cls.filter_df(df, filter_query["right"])
         else:
-            col_name = filter["left"]["value"]
-            query = filter["right"]["value"]
+            col_name = filter_query["left"]["value"]
+            query = filter_query["right"]["value"]
             case_sensitive, operator = bool(operator[0] == "s"), operator[1:]
             df = df.loc[attrgetter(_OPERATORS[operator])(df[col_name])(query)]
         return df

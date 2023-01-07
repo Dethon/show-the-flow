@@ -1,6 +1,6 @@
 import io
 import base64
-from typing import Any, Iterable
+from typing import Iterable
 import pandas as pd
 import numpy as np
 from pandas.api.types import is_numeric_dtype

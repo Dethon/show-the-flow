@@ -3,12 +3,12 @@ from stf.dash_components import UnitableInput
 
 
 def test_component_structure_general():
-    aio_id, className, unit, value, type, placeholder = "test_id", "test", "px", 27, "number", "test"
+    aio_id, className, unit, value, field_type, placeholder = "test_id", "test", "px", 27, "number", "test"
     component = UnitableInput(
         unit=unit,
         value=value,
         placeholder=placeholder,
-        type=type,
+        type=field_type,
         aio_id=aio_id,
         className=className,
     )
@@ -32,6 +32,6 @@ def test_component_structure_general():
 
 def test_component_structure_alt_without_unit():
     component = UnitableInput()
-    assert f"input-with-unit" == component.className
+    assert "input-with-unit" == component.className
     assert len(component.children) == 1
     assert isinstance(component.children[0], dcc.Input)

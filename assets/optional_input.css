@@ -11,15 +11,15 @@
 }
 
 .optional-input .input-with-unit {
-    border-width: 0px;
+    border-width: 0;
 }
 
 .optional-input .check {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     width: 35px;
     height: 100%;
     border-radius: 4px;

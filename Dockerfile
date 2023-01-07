@@ -15,7 +15,6 @@ ENV PYTHONUNBUFFERED=1 \
 ENV PATH="$POETRY_HOME/bin:$VIRTUAL_ENV/bin:$PATH"
 
 RUN apt-get update && \
-    apt-get upgrade -y && \
     apt-get clean  && \
     rm -rf /var/lib/apt/lists/* && \
     pip install --no-cache-dir "poetry==$POETRY_VERSION"

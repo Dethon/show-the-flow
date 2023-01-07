@@ -28,8 +28,8 @@ class UnitableInput(BaseComponent):
         input_props["value"] = value
         input_props["type"] = type
 
-        input = [dcc.Input(id=self.input_id, className="input", **input_props)]
+        input_component = [dcc.Input(id=self.input_id, className="input", **input_props)]
         if unit:
-            input.append(html.P(id=self.unit_id, className="input-unit", children=unit))
+            input_component.append(html.P(id=self.unit_id, className="input-unit", children=unit))
 
-        super().__init__(input, className=self.class_name_concat(["input-with-unit", className]))
+        super().__init__(input_component, className=self.class_name_concat(["input-with-unit", className]))
