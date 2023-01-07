@@ -51,7 +51,6 @@ class OptionalInput(BaseComponent):
 
         @callback(Output(self.input_id, "disabled"), Input(self.check_id, "value"))
         def input_enabling(check: bool) -> bool:
-            print(check)
             return not check
 
         self.input_enabling = input_enabling
