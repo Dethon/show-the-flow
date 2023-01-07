@@ -35,6 +35,6 @@ pip install poetry
 Then install the application and all its dependencies and run the server:
 ```
 poetry install
-poetry run start
+poetry run app
 ```
 Voila! You should have the application ready and listening on port `8000`
