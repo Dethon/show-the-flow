@@ -1,6 +1,6 @@
 from dash import dcc, html
 from stf.dash_components import LabeledInput, UnitableInput
-from tests.utils.constants import UUID_LENGTH
+from tests.utils.test_constants import UUID_LENGTH
 
 
 def test_component_structure_general():
