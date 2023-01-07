@@ -1,6 +1,5 @@
 from stf.dash_components.base_component import BaseComponent
-
-UUID_LENGTH = 36
+from tests.utils.constants import UUID_LENGTH
 
 
 def test_generate_uuid():

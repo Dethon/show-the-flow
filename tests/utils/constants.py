@@ -1,0 +1,1 @@
+UUID_LENGTH = 36
