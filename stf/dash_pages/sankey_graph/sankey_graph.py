@@ -90,8 +90,7 @@ def update_graph(
 ) -> Figure:
     try:
         x_pos, y_pos = None, None
-        trigger_id = ctx.triggered_id
-        if trigger_id != input_table.data_table_id:
+        if ctx.triggered_id != input_table.store_id:
             x_pos, y_pos = get_position(current_fig)
 
         links_df = pd.DataFrame.from_dict(rows)
