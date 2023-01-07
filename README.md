@@ -6,6 +6,7 @@
 [![Publishing](https://github.com/Dethon/show-the-flow/actions/workflows/publishing.yml/badge.svg?branch=master)](https://github.com/Dethon/show-the-flow/actions/workflows/publishing.yml)
 [![License: MIT](https://img.shields.io/github/license/Dethon/show-the-flow)](https://github.com/Dethon/show-the-flow/blob/master/LICENSE)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/4cedcec86436449199497846653dff34)](https://www.codacy.com/gh/Dethon/show-the-flow/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Dethon/show-the-flow&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/4cedcec86436449199497846653dff34)](https://www.codacy.com/gh/Dethon/show-the-flow/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Dethon/show-the-flow&utm_campaign=Badge_Coverage)
 
 Fast visualization tool to generate a Sankey graph from a CSV file with path information.
 

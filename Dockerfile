@@ -33,7 +33,6 @@ RUN apt-get update && \
     git \
     nano \
     vim \
-    curl \
     default-jre \
     iputils-ping && \
     apt-get clean && \
@@ -55,7 +54,12 @@ RUN poetry install --without dev
 COPY . /code/app
 WORKDIR /code/app
 ENV PYTHONPATH=/code/app
-RUN mypy . && pytest tests --durations=0 --durations-min=0.1 --cov=stf .
+
+ARG CODACY_TOKEN=placholder
+ENV CODACY_PROJECT_TOKEN="$CODACY_TOKEN"
+RUN mypy . && \
+    pytest tests --durations=0 --durations-min=0.1 --cov=stf --cov-report=xml . && \
+    curl -Ls "https://coverage.codacy.com/get.sh" | bash /dev/stdin report -r coverage.xml
 
 ###############################################################################
 

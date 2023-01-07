@@ -4,3 +4,4 @@
 .coverage
 __pycache__
 notebooks/toybox.py
+coverage.xml
