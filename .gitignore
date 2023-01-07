@@ -1,5 +1,6 @@
 .vscode/settings.json
 .mypy_cache
 .pytest_cache
+.coverage
 __pycache__
 notebooks/toybox.py
