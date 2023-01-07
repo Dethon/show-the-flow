@@ -22,7 +22,10 @@ class LabeledInput(BaseComponent):
         self.aio_id = aio_id or self.generate_uuid()
         self.label_id = self.ids.label(self.aio_id)
         self.component_id = self.ids.component(self.aio_id)
-        self.component = component(aio_id=aio_id, **kwargs)
+        try:
+            self.component = component(aio_id=self.aio_id, **kwargs)
+        except TypeError:
+            self.component = component(id=self.aio_id, **kwargs)
         p_label_props = self.add_defaults(p_label_props or {}, {})
         p_label_props["children"] = label
 
