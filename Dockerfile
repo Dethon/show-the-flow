@@ -56,7 +56,7 @@ RUN poetry install --without dev
 COPY . /code/app
 WORKDIR /code/app
 ENV PYTHONPATH=/code/app
-RUN mypy --follow-imports=silent --ignore-missing-imports . && pytest tests --durations=0 --durations-min=0.1 --cov=stf .
+RUN mypy . && pytest tests --durations=0 --durations-min=0.1 --cov=stf .
 
 ###############################################################################
 
