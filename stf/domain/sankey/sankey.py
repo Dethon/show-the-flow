@@ -19,6 +19,7 @@ class Sankey:
         x_pos: list[float] | None = None,
         y_pos: list[float] | None = None,
     ) -> None:
+        unit = unit if full_label else None
         self.lnk_df = lnk_df
         self.data = SankeyComponents.create_from_df(
             lnk_df, colorscale, source_col, target_col, size_col, unit, full_label, x_pos, y_pos

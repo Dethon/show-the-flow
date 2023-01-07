@@ -1,8 +1,7 @@
 from __future__ import annotations
 import uuid
-from typing import Any, Iterable
+from typing import Iterable
 from dash import html
-from stf.domain.utils import as_list
 
 
 class BaseComponent(html.Div):
@@ -10,7 +9,7 @@ class BaseComponent(html.Div):
         super().__init__(*args, **kwargs)
 
     def class_name_concat(self, classes: Iterable[str | None], sep: str = " ") -> str:
-        mapped_classes = [c or "" for c in classes]
+        mapped_classes = [c for c in classes if c]
         return sep.join(mapped_classes)
 
     def generate_uuid(self) -> str:
