@@ -26,7 +26,7 @@ def test_component_structure_general():
 
     assert input_component.placeholder == placeholder
     assert input_component.value == value
-    assert input_component.type == type
+    assert input_component.type == field_type
     assert input_component.id == UnitableInput.ids.input(aio_id) == component.input_id
 
 

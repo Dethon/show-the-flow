@@ -5,37 +5,37 @@ from stf.dash_components import InputTable
 
 def test_callback_table_view_interaction_pagination():
     component = InputTable()
-    page, page_size, sort_by, filter = 2, 1, [], {}
+    page, page_size, sort_by, filter_query = 2, 1, [], {}
     data = [{"test": 1}, {"test": 2}, {"test": 3}, {"test": 4}]
     paged = lambda page, page_size: slice(page * page_size, (page * page_size) + page_size)
 
-    result = component.table_view_interaction(page, page_size, sort_by, filter, data)
+    result = component.table_view_interaction(page, page_size, sort_by, filter_query, data)
     assert result == data[paged(page, page_size)]
 
     page, page_size = 0, 1
-    result = component.table_view_interaction(page, page_size, sort_by, filter, data)
+    result = component.table_view_interaction(page, page_size, sort_by, filter_query, data)
     assert result == data[paged(page, page_size)]
 
     page, page_size = 1, 3
-    result = component.table_view_interaction(page, page_size, sort_by, filter, data)
+    result = component.table_view_interaction(page, page_size, sort_by, filter_query, data)
     assert result == data[paged(page, page_size)]
 
     page, page_size = 1, 2
-    result = component.table_view_interaction(page, page_size, sort_by, filter, data)
+    result = component.table_view_interaction(page, page_size, sort_by, filter_query, data)
     assert result == data[paged(page, page_size)]
 
 
 def test_callback_table_view_interaction_sort():
     component = InputTable()
-    page, page_size, filter = 0, 20, {}
+    page, page_size, filter_query = 0, 20, {}
     sort_by = [{"column_id": "name", "direction": "asc"}]
     data = [{"test": 1, "name": "d"}, {"test": 2, "name": "c"}, {"test": 3, "name": "b"}, {"test": 4, "name": "a"}]
 
-    result = component.table_view_interaction(page, page_size, sort_by, filter, data)
+    result = component.table_view_interaction(page, page_size, sort_by, filter_query, data)
     assert [r["test"] for r in result] == [4, 3, 2, 1]
 
     sort_by = [{"column_id": "test", "direction": "desc"}]
-    result = component.table_view_interaction(page, page_size, sort_by, filter, data)
+    result = component.table_view_interaction(page, page_size, sort_by, filter_query, data)
     assert [r["test"] for r in result] == [4, 3, 2, 1]
 
 
