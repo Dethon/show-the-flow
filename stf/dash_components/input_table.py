@@ -1,4 +1,5 @@
 from __future__ import annotations
+from dataclasses import dataclass
 import math
 from operator import attrgetter
 import pandas as pd
@@ -35,7 +36,7 @@ _OPERATORS = {
 
 class InputTable(BaseComponent):
     class ids:
-        data_table = lambda id: {"component": "InputTable", "subcomponent": "data_table_id", "aio_id": id}
+        data_table = lambda id: {"component": "InputTable", "subcomponent": "data_table", "aio_id": id}
         store = lambda id: {"component": "InputTable", "subcomponent": "store", "aio_id": id}
         add_row_button = lambda id: {"component": "InputTable", "subcomponent": "add_row_button", "aio_id": id}
         page_size_input = lambda id: {"component": "InputTable", "subcomponent": "page_size_input", "aio_id": id}
@@ -59,7 +60,7 @@ class InputTable(BaseComponent):
 
         datatable_props = self.add_defaults(datatable_props, DATA_TABLE_DEFAULTS)
         datatable_props["hidden_columns"] = datatable_props.get("hidden_columns", []) + [IDX_COL]
-        datatable_props["data"] = df.to_dict("records")
+        datatable_props["data"] = []
         datatable_props["columns"] = columns
 
         self.page_size_input = UnitableInput(
@@ -102,7 +103,7 @@ class InputTable(BaseComponent):
 
         @callback(
             Output(self.store_id, "data"),
-            Input(self.data_table_id, "data"),
+            Input(self.data_table_id, "derived_virtual_data"),
             Input(self.add_row_button_id, "n_clicks"),
             State(self.data_table_id, "page_current"),
             State(self.data_table_id, "page_size"),
@@ -119,22 +120,23 @@ class InputTable(BaseComponent):
             filter_query: dict,
             stored_data: list[dict],
         ) -> list[dict]:
-            if not data:
+            added_row = bool(add_row_clicks and ctx.triggered_id == self.add_row_button_id)
+            oper = TableOperation.from_table_state(data, page, page_size, sort_by, filter_query, stored_data, added_row)
+            if oper.is_invalid or oper.not_changed:
                 raise PreventUpdate
+            if oper.last_element:
+                return stored_data
 
-            stored_df = pd.DataFrame.from_dict(stored_data).set_index(IDX_COL)
-            if add_row_clicks and ctx.triggered_id == self.add_row_button_id:
-                return InputTable.add_empty_row_df(stored_df).reset_index(names=IDX_COL).to_dict("records")
-
-            input_df = pd.DataFrame.from_dict(data).set_index(IDX_COL)
-            stored_paged_view = InputTable.get_view_df(stored_df, page, page_size, sort_by, filter_query)
-            if input_df.equals(stored_paged_view):
-                raise PreventUpdate
-
-            stored_df.update(input_df)
-            rows_to_remove = stored_paged_view.index[~stored_paged_view.index.isin(input_df.index)]
-            stored_df = stored_df[~stored_df.index.isin(rows_to_remove)]
-            return stored_df.reset_index(names=IDX_COL).to_dict("records")
+            if oper.row_added:
+                return InputTable.add_empty_row_df(oper.stored_df).reset_index(names=IDX_COL).to_dict("records")
+            elif oper.changed_data:
+                df = oper.stored_df
+                df.update(oper.input_df)
+                return df.reset_index(names=IDX_COL).to_dict("records")
+            else:
+                rows_to_remove = oper.stored_paged_view.index[~oper.stored_paged_view.index.isin(oper.input_df.index)]
+                stored_df = oper.stored_df[~oper.stored_df.index.isin(rows_to_remove)]
+                return stored_df.reset_index(names=IDX_COL).to_dict("records")
 
         @callback(Output(self.data_table_id, "page_size"), Input(self.page_size_input.input_id, "value"))
         def update_page_size(page_size: int) -> int:
@@ -209,3 +211,56 @@ class InputTable(BaseComponent):
             return "datetime"
         else:
             return "text"
+
+
+@dataclass
+class TableOperation:
+    row_removed: bool
+    row_added: bool
+    changed_data: bool
+    last_element: bool
+    is_invalid: bool
+    not_changed: bool
+    stored_df: pd.DataFrame
+    input_df: pd.DataFrame
+    stored_paged_view: pd.DataFrame
+
+    @classmethod
+    def from_table_state(
+        cls,
+        visible_data: list[dict],
+        page: int,
+        page_size: int,
+        sort_by: list[dict[str, str]],
+        filter_query: dict,
+        stored_data: list[dict],
+        row_add_button_clicked: bool,
+    ) -> TableOperation:
+        row_added = row_add_button_clicked
+        row_removed, changed_data, last_element, not_changed = False, False, False, False
+        stored_df, input_df, stored_paged_view = None, None, None
+        is_invalid = visible_data is None or stored_data is None
+        if not is_invalid:
+            stored_df = pd.DataFrame.from_dict(stored_data)
+            input_df = pd.DataFrame.from_dict(visible_data)
+            stored_df = stored_df.set_index(IDX_COL) if not stored_df.empty else stored_df
+            input_df = input_df.set_index(IDX_COL) if not input_df.empty else input_df
+            stored_paged_view = InputTable.get_view_df(stored_df, page, page_size, sort_by, filter_query)
+
+            last_element = len(visible_data) == 0 and len(stored_data) == 1
+            row_removed = len(input_df) == len(stored_paged_view) - 1
+            changed_data = not input_df.equals(stored_paged_view) and not row_added and not row_removed
+            is_invalid = not row_added and stored_df.empty
+            not_changed = not changed_data and not row_added and not row_removed
+
+        return cls(
+            row_added=row_added,
+            row_removed=row_removed,
+            changed_data=changed_data,
+            last_element=last_element,
+            is_invalid=is_invalid,
+            not_changed=not_changed,
+            stored_df=stored_df,
+            input_df=input_df,
+            stored_paged_view=stored_paged_view,
+        )
