@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from collections.abc import Collection
+from typing import Collection
 import pandas as pd
 from stf.domain.utils import concat_columns
 from stf.domain.colors import ColorScale
