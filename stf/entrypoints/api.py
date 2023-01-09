@@ -1,15 +1,15 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
-from stf.domain import Sankey, SankeyDTO
+from stf.dependency_configurator import services
+from stf.domain import SankeyDTO
 
 app = FastAPI()
 
 
-@app.post("/api/links", response_class=HTMLResponse)
-def read_main(dto: SankeyDTO) -> str:
-    sankey = Sankey.from_dto(dto)
-    return sankey.get_html()
+@app.post("/api/sankey", response_class=HTMLResponse)
+async def post_sankey_data(dto: SankeyDTO) -> str:
+    return services.chart_service().get_sankey_html_from_dto(dto)
 
 
 def start() -> None:

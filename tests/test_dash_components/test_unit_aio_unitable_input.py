@@ -1,5 +1,5 @@
 from dash import dcc, html
-from stf.dash_components import UnitableInput
+from stf.entrypoints.dash_app.components import UnitableInput
 
 
 def test_component_structure_general():

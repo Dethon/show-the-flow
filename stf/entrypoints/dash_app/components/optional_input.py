@@ -1,8 +1,8 @@
 from __future__ import annotations
 from typing import Any
 from dash import dcc, Output, Input, callback
-from stf.dash_components.base_component import BaseComponent
-from stf.dash_components.unitable_input import UnitableInput
+from stf.entrypoints.dash_app.components.base_component import BaseComponent
+from stf.entrypoints.dash_app.components.unitable_input import UnitableInput
 
 
 class OptionalInput(BaseComponent):

@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   dev:
-    command: /bin/sh -c "while sleep 1000; do :; done"
+    command: /bin/sh -c "redis-server --daemonize yes && while sleep 1000; do :; done"
     volumes:
       - .:/workspace:cached
     environment:

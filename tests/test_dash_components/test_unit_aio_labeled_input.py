@@ -1,5 +1,5 @@
 from dash import dcc, html
-from stf.dash_components import LabeledInput, UnitableInput
+from stf.entrypoints.dash_app.components import LabeledInput, UnitableInput
 from tests.utils.constants import UUID_LENGTH
 
 

@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import Type
 from dash import html
 from dash.development.base_component import Component
-from stf.dash_components.base_component import BaseComponent
+from stf.entrypoints.dash_app.components.base_component import BaseComponent
 
 
 class LabeledInput(BaseComponent):

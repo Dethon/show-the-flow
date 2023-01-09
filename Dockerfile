@@ -15,6 +15,8 @@ ENV PYTHONUNBUFFERED=1 \
 ENV PATH="$POETRY_HOME/bin:$VIRTUAL_ENV/bin:$PATH"
 
 RUN apt-get update && \
+    apt-get install --no-install-recommends -y \
+    redis-server=5:5.0.14-1+deb10u2 && \
     apt-get clean  && \
     rm -rf /var/lib/apt/lists/* && \
     pip install --no-cache-dir "poetry==$POETRY_VERSION"
@@ -77,6 +79,6 @@ RUN poetry install --without dev,test
 COPY . /app/
 WORKDIR /app
 EXPOSE 3500
-CMD ["uvicorn", "stf.entrypoints.app:app", "--host", "0.0.0.0", "--port", "3500"]
+CMD ["./start.sh"]
 
 ###############################################################################

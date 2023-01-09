@@ -70,9 +70,9 @@ class SankeyLinkComponents:
         size_col: str = "amount",
     ) -> SankeyLinkComponents:
         translator = {name: idx for idx, name in enumerate(node_components.names)}
-        sources = [translator[k] for k in lnk_df[source_col]]
-        targets = [translator[k] for k in lnk_df[target_col]]
-        sizes = lnk_df[size_col].to_numpy()
+        sources = [translator[k] for k in lnk_df[source_col] if k is not None]
+        targets = [translator[k] for k in lnk_df[target_col] if k is not None]
+        sizes = lnk_df[size_col].dropna().to_numpy()
         colors = list(node_components.colors)
         colors = [colors[i] for i in sources]
         return cls(sources=sources, targets=targets, sizes=sizes, colors=colors)

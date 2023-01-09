@@ -4,15 +4,16 @@ from dash import html, dcc, ctx, callback, no_update
 from dash.exceptions import PreventUpdate
 from dash.dependencies import Input, Output, State
 from plotly.graph_objects import Figure
-from stf.domain import Sankey, df_from_csv_base64
-from stf.dash_components import LabeledInput, UnitableInput, OptionalInput, InputTable
-from stf.dash_pages.sankey_graph.constants import (
+from stf.dependency_configurator import services
+from stf.entrypoints.dash_app.components import LabeledInput, UnitableInput, OptionalInput, InputTable
+from stf.entrypoints.dash_app.pages.sankey_graph.constants import (
     TITLE,
     FILE_FORMAT_ERROR_MSG,
     DEFAULT_TABLE_PROPS,
     COLORSCALES,
     DEFAULT_LAYOUT,
 )
+
 
 color_in = LabeledInput(dcc.Dropdown, options=COLORSCALES, value="IceFire", clearable=False, label="Color palette")
 default_figure = {"data": [{"type": "sankey"}]}
@@ -77,7 +78,7 @@ layout = html.Div(className="container", children=[sidebar, main_panel])
     State(sankey_graph, "figure"),
 )
 def update_graph(
-    rows: list[dict[str, str | float]],
+    key: str,
     width: int,
     height: int,
     font_size: int,
@@ -88,19 +89,15 @@ def update_graph(
     colorscale: str,
     current_fig: dict[str, list[dict]],
 ) -> Figure:
-    try:
-        x_pos, y_pos = None, None
-        if ctx.triggered_id != input_table.store_id:
-            x_pos, y_pos = get_position(current_fig)
+    x_pos, y_pos = None, None
+    if ctx.triggered_id != input_table.store_id:
+        x_pos, y_pos = get_position(current_fig)
 
-        links_df = pd.DataFrame.from_dict(rows)
-        sankey = Sankey(links_df, colorscale=colorscale, unit=unit, full_label=full_label, x_pos=x_pos, y_pos=y_pos)
-        sankey.update_layout(**DEFAULT_LAYOUT, width=width, height=height, font_size=font_size)
-        sankey.update_traces(node_pad=node_pad, node_thickness=node_thickness)
-        return sankey.get_figure()
-    except Exception as e:
-        logging.exception(e)
-        raise PreventUpdate from e
+    kwargs = dict(colorscale=colorscale, unit=unit, full_label=full_label, x_pos=x_pos, y_pos=y_pos)
+    sankey = services.chart_service().get_sankey_from_cache(key, **kwargs)
+    sankey.update_layout(**DEFAULT_LAYOUT, width=width, height=height, font_size=font_size)
+    sankey.update_traces(node_pad=node_pad, node_thickness=node_thickness)
+    return sankey.get_figure()
 
 
 @callback(
@@ -111,7 +108,7 @@ def update_table(file_contents: str) -> tuple[InputTable, bool, str]:
     if file_contents is None:
         raise PreventUpdate
     try:
-        df = validate_df(df_from_csv_base64(file_contents))
+        df = validate_df(services.dataset_service().df_from_csv_base64(file_contents))
         return InputTable(df, **DEFAULT_TABLE_PROPS), no_update, no_update
     except Exception as e:
         logging.exception(e)

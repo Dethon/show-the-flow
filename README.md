@@ -27,8 +27,7 @@ docker-compose up -d --build deploy
 By default the container will be listening to the port `8190`. You can personalize it by editing the `.env` file.
 
 ### Run with Poetry
-
-If you just want to quickly spin up the application for your own use you can also install it and all its dependencies in a virtual environment with `Poetry`. This approach requires `python 3.10`.
+If you have a local Redis server and want to quickly spin up the application for your own use you can also install it and its dependencies in a virtual environment with `Poetry`. This approach requires `python 3.10`.
 
 First install `Poetry` if you don't have it already:
 ```

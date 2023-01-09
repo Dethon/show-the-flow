@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import Any
 from dash import html, dcc
-from stf.dash_components.base_component import BaseComponent
+from stf.entrypoints.dash_app.components.base_component import BaseComponent
 
 
 class UnitableInput(BaseComponent):

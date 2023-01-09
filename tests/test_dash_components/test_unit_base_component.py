@@ -1,4 +1,4 @@
-from stf.dash_components.base_component import BaseComponent
+from stf.entrypoints.dash_app.components.base_component import BaseComponent
 from tests.utils.constants import UUID_LENGTH
 
 

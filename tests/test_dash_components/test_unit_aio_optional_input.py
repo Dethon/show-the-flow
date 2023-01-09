@@ -1,5 +1,5 @@
 from dash import dcc
-from stf.dash_components import OptionalInput, UnitableInput
+from stf.entrypoints.dash_app.components import OptionalInput, UnitableInput
 
 
 def test_callback_input_enabling():

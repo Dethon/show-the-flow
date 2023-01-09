@@ -6,8 +6,6 @@ authors = ["Francisco Crespo <jf_crespo@outlook.es>"]
 
 [tool.poetry.scripts]
 app = "stf.entrypoints.app:start"
-api = "stf.entrypoints.api:start"
-dash = "stf.entrypoints.dash_app:start"
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -21,6 +19,8 @@ nbformat = "^5.7.1"
 dash = "^2.7.1"
 pydantic = "^1.10.4"
 pyarrow = "^10.0.1"
+redis = "^4.4.1"
+dependency-injector = "^4.41.0"
 
 [tool.poetry.group.dev.dependencies]
 visidata = "^2.10.2"
@@ -33,6 +33,8 @@ pytest = "^7.2.0"
 mypy = "^0.991"
 dash = {extras = ["testing"], version = "^2.7.1"}
 pytest-cov = "^4.0.0"
+types-redis = "^4.4.0.0"
+fakeredis = "^2.4.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

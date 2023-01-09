@@ -1,7 +1,8 @@
 import uvicorn
 from fastapi.middleware.wsgi import WSGIMiddleware
-from stf.entrypoints.dash_app import app as dash_app
+from stf.entrypoints.dash_app.app import app as dash_app
 from stf.entrypoints.api import app
+
 
 app.mount("/", WSGIMiddleware(dash_app.server))
 

@@ -1,7 +1,7 @@
 from dash import Dash
-from stf.dash_pages.sankey_graph import layout
+from stf.entrypoints.dash_app.pages.sankey_graph import layout
 
-app = Dash(__name__, assets_folder="../../assets")
+app = Dash(__name__, assets_folder="../../../assets")
 app.layout = layout
 
 
