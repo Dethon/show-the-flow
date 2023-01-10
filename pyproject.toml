@@ -27,7 +27,6 @@ visidata = "^2.10.2"
 black = "^22.12.0"
 ipykernel = "^6.19.4"
 ipywidgets = "^8.0.4"
-flake8 = "^6.0.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.2.0"
@@ -36,6 +35,7 @@ dash = {extras = ["testing"], version = "^2.7.1"}
 pytest-cov = "^4.0.0"
 types-redis = "^4.4.0.0"
 fakeredis = "^2.4.0"
+flake8 = "^6.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
