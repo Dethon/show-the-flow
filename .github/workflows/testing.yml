@@ -6,7 +6,7 @@ jobs:
     env:
       DOCKER_BUILDKIT: 1
       COMPOSE_DOCKER_CLI_BUILD: 1
-      CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_TOKEN }}
+      CODACY_TOKEN: ${{ secrets.CODACY_TOKEN }}
     steps:
       - uses: actions/checkout@v3
       - name: Build test image
@@ -15,5 +15,5 @@ jobs:
       - name: Upload coverage report
         if: github.ref == 'refs/heads/master'
         run: |
-          docker-compose run test bash -c "bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage.xml"
+          docker-compose run test bash -c "CODACY_PROJECT_TOKEN=$CODACY_TOKEN bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage.xml"
           
