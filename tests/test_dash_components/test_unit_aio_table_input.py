@@ -25,22 +25,23 @@ def test_callback_table_view_interaction_pagination(cache: DataframeCache):
     data = df.reset_index(names=IDX_COL).to_dict("records")
     key = cache.add_data(df)
 
-    paged = lambda page, page_size: slice(page * page_size, (page * page_size) + page_size)
+    def get_page_slice(page: int, page_size: int) -> slice:
+        return slice(page * page_size, (page * page_size) + page_size)
 
     result = component.table_view_interaction(page, page_size, sort_by, filter_query, key)
-    assert result == data[paged(page, page_size)]
+    assert result == data[get_page_slice(page, page_size)]
 
     page, page_size = 0, 1
     result = component.table_view_interaction(page, page_size, sort_by, filter_query, key)
-    assert result == data[paged(page, page_size)]
+    assert result == data[get_page_slice(page, page_size)]
 
     page, page_size = 1, 3
     result = component.table_view_interaction(page, page_size, sort_by, filter_query, key)
-    assert result == data[paged(page, page_size)]
+    assert result == data[get_page_slice(page, page_size)]
 
     page, page_size = 1, 2
     result = component.table_view_interaction(page, page_size, sort_by, filter_query, key)
-    assert result == data[paged(page, page_size)]
+    assert result == data[get_page_slice(page, page_size)]
 
 
 def test_callback_table_view_interaction_sort(cache: DataframeCache):

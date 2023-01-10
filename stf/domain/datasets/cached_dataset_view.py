@@ -84,7 +84,7 @@ class CachedDatasetView:
         else:
             col_name = filter_query["left"]["value"]
             query = filter_query["right"]["value"]
-            case_sensitive, operator = bool(operator[0] == "s"), operator[1:]
+            case_sensitive, operator = bool(operator[0] == "s"), operator[1:]  # noqa: F841
             df = df.loc[attrgetter(_OPERATORS[operator])(df[col_name])(query)]
         return df
 

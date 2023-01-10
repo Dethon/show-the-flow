@@ -27,6 +27,7 @@ visidata = "^2.10.2"
 black = "^22.12.0"
 ipykernel = "^6.19.4"
 ipywidgets = "^8.0.4"
+flake8 = "^6.0.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.2.0"

@@ -1,0 +1,5 @@
+[flake8]
+extend-ignore =
+    E731
+    E203
+    E501
