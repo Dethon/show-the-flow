@@ -97,16 +97,16 @@ def test_callback_table_view_interaction_filter(cache: DataframeCache):
     assert [r["test"] for r in result] == [1]
 
 
-def test_callback_update_store(cache: DataframeCache):
+def test_callback_update_store():
     pass
 
 
-def test_callback_update_page_size_ok(cache: DataframeCache):
+def test_callback_update_page_size_ok():
     component = InputTable()
     assert component.update_page_size(5) == 5
 
 
-def test_callback_update_page_size_noupdate(cache: DataframeCache):
+def test_callback_update_page_size_noupdate():
     component = InputTable()
     with pytest.raises(PreventUpdate):
         component.update_page_size(0)
@@ -124,11 +124,11 @@ def test_callback_update_page_count_ok(cache: DataframeCache):
     assert component.update_page_count(key, 1, {}) == 4
 
 
-def test_callback_update_page_count_noupdate(cache: DataframeCache):
+def test_callback_update_page_count_noupdate():
     component = InputTable()
     with pytest.raises(PreventUpdate):
         component.update_page_count("", 0, None)
 
 
-def test_component_structure_general(cache: DataframeCache):
+def test_component_structure_general():
     pass
