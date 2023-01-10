@@ -56,15 +56,9 @@ RUN poetry install --without dev
 COPY . /code/app
 WORKDIR /code/app
 ENV PYTHONPATH=/code/app
-
-ARG CODACY_TOKEN=placholder
-ENV CODACY_PROJECT_TOKEN="$CODACY_TOKEN"
-
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN flake8 . && \
     mypy . && \
-    pytest tests --durations=0 --durations-min=0.1 --cov=stf --cov-report=xml . && \
-    curl -Ls "https://coverage.codacy.com/get.sh" | bash /dev/stdin report -r coverage.xml
+    pytest tests --durations=0 --durations-min=0.1 --cov=stf --cov-report=xml .
 
 ###############################################################################
 
