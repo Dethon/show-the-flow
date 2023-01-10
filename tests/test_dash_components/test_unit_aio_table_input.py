@@ -1,18 +1,8 @@
 import pytest
 import pandas as pd
 from dash.exceptions import PreventUpdate
-from dependency_injector import providers
 from stf.domain.ports import DataframeCache
 from stf.entrypoints.dash_app.components.input_table import InputTable, IDX_COL
-from stf.adapters.fake_redis_chart_data_cache import FakeRedisDataframeCache
-from stf.dependency_configurator import services
-
-
-@pytest.fixture
-def cache() -> DataframeCache:
-    cache = FakeRedisDataframeCache()
-    services.adapters.cache.override(providers.Object(cache))
-    return cache
 
 
 def test_callback_table_view_interaction_pagination(cache: DataframeCache):
@@ -125,8 +115,6 @@ def test_callback_update_page_size_noupdate(cache: DataframeCache):
 def test_callback_update_page_count_ok(cache: DataframeCache):
     component = InputTable()
     data = pd.DataFrame.from_dict([{"a": 1}, {"a": 1}, {"a": 1}, {"a": 1}])
-    cache = FakeRedisDataframeCache()
-    services.adapters.cache.override(providers.Object(cache))
     key = cache.add_data(data)
 
     assert component.update_page_count(key, 7, {}) == 1
