@@ -10,7 +10,7 @@ app = "stf.entrypoints.app:start"
 [tool.poetry.dependencies]
 python = "^3.10"
 uvicorn = {extras = ["standard"], version = "^0.20.0"}
-requests = "^2.28.1"
+requests = "^2.28.2"
 fastapi = "^0.89.1"
 pandas = "^1.5.2"
 openpyxl = "^3.0.10"
