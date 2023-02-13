@@ -692,19 +692,19 @@ tests = ["asttokens", "littleutils", "pytest", "rich"]
 
 [[package]]
 name = "fakeredis"
-version = "2.4.0"
+version = "2.8.0"
 description = "Fake implementation of redis API for testing purposes."
 category = "dev"
 optional = false
 python-versions = ">=3.8.1,<4.0"
 files = [
-    {file = "fakeredis-2.4.0-py3-none-any.whl", hash = "sha256:628d333a85fb184204ba234278970d8621fbd6bf90c81b2439a95b89e12f58d3"},
-    {file = "fakeredis-2.4.0.tar.gz", hash = "sha256:8fe73cde197c79591cf22dfefac74056fd1841934ad32cfdb98c7eb569c39da3"},
+    {file = "fakeredis-2.8.0-py3-none-any.whl", hash = "sha256:f1130bc2da77d5063c7aeee643b456d2bd486f3bd0236976646af1fb6b7e08fb"},
+    {file = "fakeredis-2.8.0.tar.gz", hash = "sha256:2d5487e765894714d08fca50351c3a224e705eb02c02b2d012c00ed98b979616"},
 ]
 
 [package.dependencies]
-redis = "<4.5"
-sortedcontainers = ">=2.4.0,<3.0.0"
+redis = ">=4,<5"
+sortedcontainers = ">=2.4,<3.0"
 
 [package.extras]
 json = ["jsonpath-ng (>=1.5,<2.0)"]
@@ -2196,14 +2196,14 @@ py = {version = "*", markers = "implementation_name == \"pypy\""}
 
 [[package]]
 name = "redis"
-version = "4.4.1"
+version = "4.5.1"
 description = "Python client for Redis database and key-value store"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "redis-4.4.1-py3-none-any.whl", hash = "sha256:a721fd4d715fcd947848ed8fa02c2efd8224279979e0b721d9fdac6c4db35e93"},
-    {file = "redis-4.4.1.tar.gz", hash = "sha256:f7a870c44868ab87bbecd6211c6d7c8720b1e9a796b743fbc4725d7ec75651c3"},
+    {file = "redis-4.5.1-py3-none-any.whl", hash = "sha256:5deb072d26e67d2be1712603bfb7947ec3431fb0eec9c578994052e33035af6d"},
+    {file = "redis-4.5.1.tar.gz", hash = "sha256:1eec3741cda408d3a5f84b78d089c8b8d895f21b3b050988351e925faf202864"},
 ]
 
 [package.dependencies]
@@ -2813,4 +2813,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "687c0dbf029e2162ba0bbc784edf653bb5ca600b5838563f26b704631f228334"
+content-hash = "cc1cb4e5c0ced7fccaec9af9839ff61ec77f64da19c9f55c98d660d9deb4c9d8"
