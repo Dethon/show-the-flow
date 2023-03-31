@@ -2196,14 +2196,14 @@ py = {version = "*", markers = "implementation_name == \"pypy\""}
 
 [[package]]
 name = "redis"
-version = "4.4.1"
+version = "4.4.4"
 description = "Python client for Redis database and key-value store"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "redis-4.4.1-py3-none-any.whl", hash = "sha256:a721fd4d715fcd947848ed8fa02c2efd8224279979e0b721d9fdac6c4db35e93"},
-    {file = "redis-4.4.1.tar.gz", hash = "sha256:f7a870c44868ab87bbecd6211c6d7c8720b1e9a796b743fbc4725d7ec75651c3"},
+    {file = "redis-4.4.4-py3-none-any.whl", hash = "sha256:da92a39fec86438d3f1e2a1db33c312985806954fe860120b582a8430e231d8f"},
+    {file = "redis-4.4.4.tar.gz", hash = "sha256:68226f7ede928db8302f29ab088a157f41061fa946b7ae865452b6d7838bbffb"},
 ]
 
 [package.dependencies]
@@ -2813,4 +2813,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "687c0dbf029e2162ba0bbc784edf653bb5ca600b5838563f26b704631f228334"
+content-hash = "b450ca6902c94e6f4e5e5968b22884711af6ffdee358c151164b3e92c4960f4b"
